@@ -338,3 +338,19 @@ Choose the solution that is
 This project values authenticity over perfection.
 
 This portfolio should feel like it was created by an experienced software engineer, not by AI.
+
+---
+
+## Agent skills
+
+### Issue tracker
+
+Issues and PRDs are tracked in GitHub Issues. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+The project uses the five default triage labels. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+This project uses a single-context domain documentation layout. See `docs/agents/domain.md`.

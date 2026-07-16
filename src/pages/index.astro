@@ -1,58 +1,281 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import SectionHeading from '../components/SectionHeading.astro';
-import SkillGroup from '../components/SkillGroup.astro';
+import { withBase } from '../utils/paths';
 
-const skillGroups = [
+const experienceAreas = [
   {
-    label: 'Backend',
-    items: ['REST APIs', 'Node.js', 'NestJS', 'ASP.NET MVC', 'Database Design'],
+    title: 'Live-service games',
+    description:
+      'Developed backend APIs, shared player services, gameplay functionality, and production deployments for browser and mobile games. The work included multiplayer platforms, payments, voice communication, advertising services, and cloud infrastructure.',
   },
   {
-    label: 'Cloud',
-    items: ['Firebase', 'Cloud Run', 'Heroku', 'Coolify', 'Netlify'],
+    title: 'Enterprise IT systems',
+    description:
+      'Developed enterprise software for private-sector clients, government agencies, and public organizations. The work included database-driven web applications, Windows software, government information systems, and integrations with specialized hardware.',
   },
   {
-    label: 'Databases',
-    items: ['Firestore', 'SQL Server', 'Oracle Database', 'SQLite'],
-  },
-  {
-    label: 'Live-Service Games',
-    items: ['Photon Realtime', 'Azure PlayFab', 'Colyseus', 'Xsolla', 'Agora'],
+    title: 'Platforms and integration',
+    description:
+      'Researched unfamiliar technologies, integrated them into existing systems, and supported them in production across APIs, cloud services, hardware devices, mobile SDKs, and desktop applications.',
   },
 ];
+
+const capabilityGroups = [
+  {
+    title: 'Backend systems',
+    description: 'REST APIs, backend architecture, database design, and player services.',
+  },
+  {
+    title: 'Integration',
+    description: 'Third-party services, multiplayer platforms, payments, authentication, and hardware.',
+  },
+  {
+    title: 'Cloud and delivery',
+    description: 'Firebase, Cloud Run, serverless hosting, production deployment, and maintenance.',
+  },
+  {
+    title: 'Data and applications',
+    description: 'Firestore, SQL Server, Oracle Database, Windows applications, and offline software.',
+  },
+];
+
+const resumeHref = withBase('resume');
 ---
 
 <BaseLayout
   title="Backend Developer"
-  description="Veerakran Sereerungruangkul (Vee) — Backend Developer specializing in platform integration, cloud services, and live-service games."
+  description="Veerakran Sereerungruangkul is a Backend Developer working across enterprise IT systems, cloud services, systems integration, and live-service games."
 >
-  <h1>Veerakran Sereerungruangkul</h1>
-  <p class="title">Backend Developer &middot; Platform &amp; Systems Integration &middot; Cloud &amp; Live-Service Games</p>
+  <section class="hero" aria-labelledby="home-title">
+    <p class="section-label">Backend Developer</p>
+    <div class="hero-content">
+      <h1 id="home-title">Veerakran Sereerungruangkul</h1>
+      <p class="hero-summary">
+        Backend Developer with 7+ years of experience building enterprise software and backend
+        systems for live-service games. Experienced in developing APIs, designing databases, and
+        integrating cloud services, multiplayer platforms, payment systems, specialized hardware,
+        and third-party APIs.
+      </p>
+    </div>
+  </section>
 
-  <p>
-    Backend Developer with 7+ years of experience building enterprise software and backend
-    systems for live-service games. Experienced in developing APIs, designing databases, and
-    integrating cloud services, multiplayer platforms, payment systems, specialized hardware,
-    and third-party APIs.
-  </p>
+  <section class="connected-section" aria-labelledby="integration-title">
+    <p class="section-label">Working approach</p>
+    <div class="section-content">
+      <h2 id="integration-title">Systems integration</h2>
+      <div class="narrative">
+        <p>The recurring theme throughout my career is solving integration problems.</p>
+        <p>
+          Rather than specializing in one framework or technology, I have often been responsible
+          for researching unfamiliar technologies, understanding how they work, integrating them
+          into existing systems, and making them reliable enough for production use.
+        </p>
+      </div>
+    </div>
+  </section>
 
-  <p>
-    The recurring theme throughout my career is solving integration problems. Rather than
-    specializing in one framework or technology, I have often been responsible for researching
-    unfamiliar technologies, understanding how they work, integrating them into existing
-    systems, and making them reliable enough for production use.
-  </p>
+  <section id="experience" class="connected-section" aria-labelledby="experience-title">
+    <p class="section-label">Professional range</p>
+    <div class="section-content">
+      <h2 id="experience-title">Experience across systems</h2>
+      <div class="experience-list">
+        {experienceAreas.map((area) => (
+          <article>
+            <h3>{area.title}</h3>
+            <p>{area.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
 
-  <section>
-    <SectionHeading title="Technical Skills" />
-    {skillGroups.map((group) => <SkillGroup label={group.label} items={group.items} />)}
+  <section class="connected-section" aria-labelledby="capabilities-title">
+    <p class="section-label">Core work</p>
+    <div class="section-content">
+      <h2 id="capabilities-title">Technical capabilities</h2>
+      <div class="capability-grid">
+        {capabilityGroups.map((group) => (
+          <div>
+            <h3>{group.title}</h3>
+            <p>{group.description}</p>
+          </div>
+        ))}
+      </div>
+      <a class="resume-link" href={resumeHref}>
+        View detailed experience <span aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
   </section>
 </BaseLayout>
 
 <style>
-  .title {
+  .hero,
+  .connected-section {
+    display: grid;
+    grid-template-columns: minmax(9rem, 12rem) minmax(0, 1fr);
+    column-gap: clamp(2rem, 6vw, 5rem);
+  }
+
+  .hero {
+    align-items: start;
+    padding-bottom: clamp(4.5rem, 10vw, 8rem);
+  }
+
+  .section-label {
+    padding-top: 0.45rem;
     color: var(--color-muted);
-    margin-top: -0.5rem;
+    font-family: var(--font-utility);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .hero-content,
+  .section-content {
+    min-width: 0;
+  }
+
+  .hero-summary {
+    max-width: 43rem;
+    margin-top: clamp(1.75rem, 4vw, 3rem);
+    color: var(--color-muted);
+    font-size: clamp(1.08rem, 1rem + 0.5vw, 1.35rem);
+    line-height: 1.65;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.1rem, 7vw, 5.75rem);
+  }
+
+  .connected-section {
+    scroll-margin-top: 2rem;
+  }
+
+  .section-content {
+    position: relative;
+    padding: clamp(3rem, 7vw, 5.5rem) 0 clamp(3.5rem, 8vw, 6rem)
+      clamp(1.5rem, 4vw, 3.5rem);
+    border-left: 1px solid var(--color-accent);
+  }
+
+  .connected-section > .section-label {
+    padding-top: clamp(3.35rem, 7vw, 5.85rem);
+  }
+
+  .section-content > h2 {
+    max-width: 38rem;
+  }
+
+  .narrative {
+    display: grid;
+    gap: 1.15rem;
+    max-width: var(--reading-width);
+    margin-top: 1.75rem;
+    color: var(--color-muted);
+    font-size: clamp(1.05rem, 1rem + 0.25vw, 1.2rem);
+  }
+
+  .experience-list {
+    margin-top: 2.25rem;
+  }
+
+  .experience-list article {
+    display: grid;
+    grid-template-columns: minmax(10rem, 0.75fr) minmax(0, 1.6fr);
+    gap: 1.5rem;
+    padding: 1.6rem 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .experience-list article:last-child {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .experience-list p,
+  .capability-grid p {
+    color: var(--color-muted);
+  }
+
+  .capability-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    margin-top: 2.25rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .capability-grid > div {
+    min-height: 10rem;
+    padding: 1.5rem 1.5rem 1.5rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .capability-grid > div:nth-child(odd) {
+    border-right: 1px solid var(--color-border);
+  }
+
+  .capability-grid > div:nth-child(even) {
+    padding-left: 1.5rem;
+  }
+
+  .capability-grid p {
+    margin-top: 0.7rem;
+    font-size: 0.95rem;
+  }
+
+  .resume-link {
+    display: inline-flex;
+    gap: 0.5rem;
+    margin-top: 2.5rem;
+    font-weight: 650;
+  }
+
+  @media (max-width: 45rem) {
+    .hero,
+    .connected-section {
+      grid-template-columns: 1fr;
+    }
+
+    .hero {
+      gap: 1.25rem;
+      padding-bottom: 4rem;
+    }
+
+    .section-content {
+      margin-top: 0.85rem;
+      padding: 2.25rem 0 4rem;
+      border-top: 1px solid var(--color-accent);
+      border-left: 0;
+    }
+
+    .connected-section > .section-label {
+      padding-top: 0;
+    }
+
+    .experience-list article {
+      grid-template-columns: 1fr;
+      gap: 0.65rem;
+    }
+  }
+
+  @media (max-width: 32rem) {
+    .capability-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .capability-grid > div,
+    .capability-grid > div:nth-child(even),
+    .capability-grid > div:nth-child(odd) {
+      min-height: 0;
+      padding: 1.35rem 0;
+      border-right: 0;
+    }
+  }
+
+  @media (max-width: 22rem) {
+    .hero h1 {
+      font-size: 1.85rem;
+    }
   }
 </style>

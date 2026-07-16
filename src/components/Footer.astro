@@ -2,22 +2,71 @@
 const year = new Date().getFullYear();
 ---
 
-<footer>
-  <p>
-    <a href="mailto:veerakran.s@gmail.com">veerakran.s@gmail.com</a>
-    &middot;
-    <a href="https://linkedin.com/in/veerakran-s" rel="me">LinkedIn</a>
-  </p>
-  <p>&copy; {year} Veerakran Sereerungruangkul</p>
+<footer id="contact">
+  <div class="footer-inner">
+    <div>
+      <p class="footer-label">Contact</p>
+      <p class="contact-links">
+        <a href="mailto:veerakran.s@gmail.com">veerakran.s@gmail.com</a>
+        <a href="https://linkedin.com/in/veerakran-s" rel="me">LinkedIn</a>
+      </p>
+    </div>
+    <p class="copyright">&copy; {year} Veerakran Sereerungruangkul</p>
+  </div>
 </footer>
 
 <style>
   footer {
-    max-width: var(--content-width);
-    margin-inline: auto;
-    padding: var(--spacing-3) var(--spacing-2) var(--spacing-4);
-    color: var(--color-muted);
-    font-size: 0.9rem;
     border-top: 1px solid var(--color-border);
+    scroll-margin-top: 2rem;
+  }
+
+  .footer-inner {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    max-width: var(--site-width);
+    margin-inline: auto;
+    padding: clamp(2.5rem, 6vw, 4rem) clamp(1.25rem, 4vw, 2rem);
+  }
+
+  .footer-label {
+    margin-bottom: 0.65rem;
+    color: var(--color-muted);
+    font-family: var(--font-utility);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+  }
+
+  .copyright {
+    color: var(--color-muted);
+    font-size: 0.78rem;
+    text-align: right;
+  }
+
+  @media (max-width: 38rem) {
+    .footer-inner {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .copyright {
+      text-align: left;
+    }
+  }
+
+  @media print {
+    footer {
+      display: none;
+    }
   }
 </style>

@@ -1,8 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../utils/paths';
+
+const homeHref = withBase();
 ---
 
 <BaseLayout title="Page Not Found" description="Page not found.">
   <h1>Page not found</h1>
-  <p><a href="/">Return home</a></p>
+  <p><a href={homeHref}>Return home</a></p>
 </BaseLayout>

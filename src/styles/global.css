@@ -1,19 +1,65 @@
+@font-face {
+  font-family: "Archivo";
+  src: url("/fonts/archivo-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Public Sans";
+  src: url("/fonts/public-sans-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+}
+
 :root {
-  --color-bg: #ffffff;
-  --color-text: #1a1a1a;
-  --color-muted: #5a5a5a;
-  --color-border: #e0e0e0;
-  --color-accent: #1d4ed8;
+  color-scheme: light;
+  --color-bg: #f5f6f3;
+  --color-surface: #e9eeea;
+  --color-text: #18201c;
+  --color-muted: #5b6660;
+  --color-border: #cfd6d1;
+  --color-accent: #1f5f8b;
+  --color-accent-strong: #174968;
 
-  --font-body: system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "SFMono-Regular", Consolas, monospace;
+  --font-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-heading: "Archivo", system-ui, sans-serif;
+  --font-utility: ui-monospace, "SFMono-Regular", Consolas, monospace;
 
-  --content-width: 42rem;
+  --site-width: 72rem;
+  --reading-width: 44rem;
   --spacing-1: 0.5rem;
   --spacing-2: 1rem;
   --spacing-3: 1.5rem;
   --spacing-4: 2.5rem;
   --spacing-5: 4rem;
+  --spacing-6: 6rem;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-bg: #111714;
+  --color-surface: #19221d;
+  --color-text: #e8ede9;
+  --color-muted: #a5b0a9;
+  --color-border: #34413a;
+  --color-accent: #7eb7de;
+  --color-accent-strong: #acd4ed;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --color-bg: #111714;
+    --color-surface: #19221d;
+    --color-text: #e8ede9;
+    --color-muted: #a5b0a9;
+    --color-border: #34413a;
+    --color-accent: #7eb7de;
+    --color-accent-strong: #acd4ed;
+  }
 }
 
 *,
@@ -22,41 +68,133 @@
   box-sizing: border-box;
 }
 
+html {
+  background: var(--color-bg);
+}
+
 body {
+  min-height: 100vh;
   margin: 0;
-  font-family: var(--font-body);
   color: var(--color-text);
   background: var(--color-bg);
-  line-height: 1.6;
-  font-size: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 0.96rem + 0.16vw, 1.08rem);
+  line-height: 1.7;
+  text-rendering: optimizeLegibility;
 }
 
 main {
-  max-width: var(--content-width);
+  width: min(100%, var(--site-width));
   margin-inline: auto;
-  padding: var(--spacing-4) var(--spacing-2);
+  padding: clamp(3.5rem, 8vw, var(--spacing-6)) clamp(1.25rem, 4vw, 2rem);
 }
 
 h1,
 h2,
 h3 {
-  line-height: 1.25;
+  margin-block: 0;
+  font-family: var(--font-heading);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+h1 {
+  font-size: clamp(2.55rem, 7vw, 5.75rem);
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+h2 {
+  font-size: clamp(1.65rem, 3vw, 2.5rem);
+  font-weight: 650;
+}
+
+h3 {
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+  font-weight: 650;
+}
+
+p,
+ul {
+  margin-block: 0;
 }
 
 a {
   color: var(--color-accent);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.22em;
+}
+
+a:hover {
+  color: var(--color-accent-strong);
+}
+
+a,
+button,
+select {
+  transition: color 140ms ease, background-color 140ms ease, border-color 140ms ease;
+}
+
+:focus-visible {
+  outline: 0.18rem solid var(--color-accent);
+  outline-offset: 0.22rem;
+}
+
+::selection {
+  color: var(--color-bg);
+  background: var(--color-text);
 }
 
 .skip-link {
-  position: absolute;
-  left: -999px;
-  top: 0;
+  position: fixed;
+  left: 1rem;
+  top: -5rem;
+  z-index: 100;
+  padding: 0.65rem 0.9rem;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
 }
 
 .skip-link:focus {
-  left: var(--spacing-2);
-  top: var(--spacing-2);
-  background: var(--color-bg);
-  padding: var(--spacing-1);
-  z-index: 10;
+  top: 1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  :root {
+    color-scheme: light;
+    --color-bg: #ffffff;
+    --color-surface: #ffffff;
+    --color-text: #111111;
+    --color-muted: #444444;
+    --color-border: #cccccc;
+    --color-accent: #111111;
+    --color-accent-strong: #111111;
+  }
+
+  body {
+    background: #ffffff;
+    font-size: 10pt;
+  }
+
+  main {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+  }
+
+  body > header,
+  body > footer,
+  .skip-link {
+    display: none !important;
+  }
 }

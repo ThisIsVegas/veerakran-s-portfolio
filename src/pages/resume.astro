@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import SectionHeading from '../components/SectionHeading.astro';
+import { withBase } from '../utils/paths';
 
 const experience = [
   {
@@ -36,77 +36,383 @@ const experience = [
   },
 ];
 
-const skillCategories = [
-  { label: 'Programming Languages', items: ['TypeScript', 'JavaScript', 'C#', 'PHP', 'SQL', 'Dart'] },
-  { label: 'Backend', items: ['Node.js', 'NestJS', 'Firebase Functions', 'ASP.NET MVC', 'Slim Framework', 'REST APIs'] },
-  { label: 'Databases', items: ['Firestore', 'Firebase Realtime Database', 'SQLite', 'Microsoft SQL Server', 'Oracle Database'] },
-  { label: 'Cloud', items: ['Firebase', 'Cloud Run', 'Heroku', 'Coolify', 'Netlify'] },
-  { label: 'Game Services', items: ['Photon Realtime', 'Azure PlayFab', 'Colyseus', 'Xsolla', 'Agora', 'Google AdMob', 'ironSource'] },
+const capabilityGroups = [
+  {
+    label: 'Backend development',
+    items: ['REST APIs', 'Node.js', 'NestJS', 'Firebase Functions', 'ASP.NET MVC'],
+  },
+  {
+    label: 'Platform integration',
+    items: ['Photon Realtime', 'Azure PlayFab', 'Colyseus', 'Xsolla', 'Agora', 'Firebase Authentication'],
+  },
+  {
+    label: 'Databases and cloud',
+    items: [
+      'Firestore',
+      'Firebase Realtime Database',
+      'SQLite',
+      'Microsoft SQL Server',
+      'Oracle Database',
+      'Firebase',
+      'Cloud Run',
+      'Heroku',
+      'Coolify',
+      'Netlify',
+    ],
+  },
+  {
+    label: 'Programming languages',
+    items: ['TypeScript', 'JavaScript', 'C#', 'PHP', 'SQL', 'Dart'],
+  },
+  {
+    label: 'Desktop and hardware',
+    items: [
+      'Electron',
+      'Windows applications',
+      'Thai Citizen ID smart card readers',
+      'RFID',
+      'Barcode scanners',
+    ],
+  },
 ];
+
+const resumePDFHref = withBase('resume.pdf');
 ---
 
 <BaseLayout title="Resume" description="Resume of Veerakran Sereerungruangkul, Backend Developer.">
-  <h1>Resume</h1>
-  <p><a href="/resume.pdf">Download PDF</a></p>
-
-  <p>
-    Backend Developer with 7+ years of experience building enterprise software and backend
-    systems for live-service games. Experienced in developing APIs, designing databases, and
-    integrating cloud services, multiplayer platforms, payment systems, specialized hardware,
-    and third-party APIs.
-  </p>
-
-  <section>
-    <SectionHeading title="Employment History" />
-    {experience.map((job) => (
-      <div class="job">
-        <h3>{job.title} &mdash; {job.employer}</h3>
-        <p class="meta">{job.dateRange} &middot; {job.location}</p>
-        <ul>
-          {job.bullets.map((bullet) => <li>{bullet}</li>)}
-        </ul>
+  <article class="resume-page">
+    <header class="resume-hero">
+      <div>
+        <p class="eyebrow">Career overview</p>
+        <h1>Resume</h1>
       </div>
-    ))}
-  </section>
+      <a class="pdf-link" href={resumePDFHref}>Download PDF</a>
+    </header>
 
-  <section>
-    <SectionHeading title="Education" />
-    <p>Bachelor of Science, Information Technology and Communication</p>
-    <p class="meta">Sripatum University, Chonburi Campus &middot; 2018</p>
-  </section>
+    <p class="summary">
+      Backend Developer with 7+ years of experience building enterprise software and backend
+      systems for live-service games. Experienced in developing APIs, designing databases, and
+      integrating cloud services, multiplayer platforms, payment systems, specialized hardware,
+      and third-party APIs.
+    </p>
 
-  <section>
-    <SectionHeading title="Technical Skills" />
-    {skillCategories.map((cat) => (
-      <div class="skill-category">
-        <h3>{cat.label}</h3>
-        <p>{cat.items.join(', ')}</p>
+    <section class="resume-section" aria-labelledby="employment-heading">
+      <div class="section-heading">
+        <p class="eyebrow">Experience</p>
+        <h2 id="employment-heading">Employment history</h2>
       </div>
-    ))}
-  </section>
+      <div class="section-body jobs">
+        {experience.map((job) => (
+          <article class="job">
+            <div class="job-heading">
+              <div>
+                <h3>{job.title}</h3>
+                <p class="employer">{job.employer}</p>
+              </div>
+              <p class="date-range">{job.dateRange}</p>
+            </div>
+            <p class="location">{job.location}</p>
+            <ul>
+              {job.bullets.map((bullet) => <li>{bullet}</li>)}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </section>
 
-  <section>
-    <SectionHeading title="Languages" />
-    <p>Thai (Native), English (Professional Working Proficiency)</p>
-  </section>
+    <section class="resume-section" aria-labelledby="education-heading">
+      <div class="section-heading">
+        <p class="eyebrow">Study</p>
+        <h2 id="education-heading">Education</h2>
+      </div>
+      <div class="section-body education">
+        <h3>Bachelor of Science, Information Technology and Communication</h3>
+        <p>Sripatum University, Chonburi Campus</p>
+        <p class="date-range">2018</p>
+      </div>
+    </section>
+
+    <section class="resume-section" aria-labelledby="skills-heading">
+      <div class="section-heading">
+        <p class="eyebrow">Technical work</p>
+        <h2 id="skills-heading">Technical capabilities</h2>
+      </div>
+      <div class="section-body capability-list">
+        {capabilityGroups.map((group) => (
+          <div class="capability-group">
+            <h3>{group.label}</h3>
+            <ul>
+              {group.items.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="resume-section" aria-labelledby="languages-heading">
+      <div class="section-heading">
+        <p class="eyebrow">Communication</p>
+        <h2 id="languages-heading">Languages</h2>
+      </div>
+      <div class="section-body language-list">
+        <p><strong>Thai</strong> <span>Native</span></p>
+        <p><strong>English</strong> <span>Professional working proficiency</span></p>
+      </div>
+    </section>
+  </article>
 </BaseLayout>
 
 <style>
-  .job {
-    margin-bottom: var(--spacing-3);
+  .resume-page {
+    max-width: 64rem;
+    margin-inline: auto;
   }
 
-  .meta {
+  .resume-hero {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-accent);
+  }
+
+  .resume-hero h1 {
+    margin-top: 0.4rem;
+    font-size: clamp(3rem, 7vw, 5rem);
+  }
+
+  .eyebrow,
+  .date-range,
+  .location {
     color: var(--color-muted);
+    font-family: var(--font-utility);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .pdf-link {
+    flex: none;
+    padding-bottom: 0.3rem;
     font-size: 0.9rem;
+    font-weight: 650;
   }
 
-  .skill-category {
-    margin-bottom: var(--spacing-1);
+  .summary {
+    max-width: 47rem;
+    margin: 2rem 0 clamp(4rem, 8vw, 6rem);
+    color: var(--color-muted);
+    font-size: clamp(1.05rem, 1rem + 0.25vw, 1.2rem);
   }
 
-  .skill-category h3 {
-    font-size: 1rem;
-    margin-bottom: 0.2rem;
+  .resume-section {
+    display: grid;
+    grid-template-columns: minmax(10rem, 15rem) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    padding: 0 0 clamp(4rem, 8vw, 6rem);
+  }
+
+  .section-heading h2 {
+    margin-top: 0.5rem;
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+  }
+
+  .section-body {
+    min-width: 0;
+    padding-left: clamp(1.5rem, 3vw, 2.5rem);
+    border-left: 1px solid var(--color-accent);
+  }
+
+  .job {
+    padding-bottom: 3rem;
+    break-inside: avoid;
+  }
+
+  .job + .job {
+    padding-top: 3rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .job:last-child {
+    padding-bottom: 0;
+  }
+
+  .job-heading {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  .employer {
+    margin-top: 0.35rem;
+    color: var(--color-accent);
+    font-weight: 650;
+  }
+
+  .date-range {
+    flex: none;
+    padding-top: 0.25rem;
+    text-align: right;
+  }
+
+  .location {
+    margin-top: 0.8rem;
+  }
+
+  .job ul {
+    display: grid;
+    gap: 0.55rem;
+    margin-top: 1.35rem;
+    padding-left: 1.25rem;
+    color: var(--color-muted);
+  }
+
+  .education p {
+    margin-top: 0.45rem;
+    color: var(--color-muted);
+  }
+
+  .education .date-range {
+    margin-top: 1rem;
+    text-align: left;
+  }
+
+  .capability-group {
+    display: grid;
+    grid-template-columns: minmax(9rem, 0.8fr) minmax(0, 1.5fr);
+    gap: 1.25rem;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--color-border);
+    break-inside: avoid;
+  }
+
+  .capability-group:last-child {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .capability-group ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.65rem;
+    padding: 0;
+    color: var(--color-muted);
+    list-style: none;
+  }
+
+  .capability-group li:not(:last-child)::after {
+    content: ",";
+  }
+
+  .language-list {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .language-list p {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    gap: 1rem;
+  }
+
+  .language-list span {
+    color: var(--color-muted);
+  }
+
+  @media (max-width: 48rem) {
+    .resume-section {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    .section-body {
+      padding: 1.75rem 0 0;
+      border-top: 1px solid var(--color-accent);
+      border-left: 0;
+    }
+  }
+
+  @media (max-width: 35rem) {
+    .resume-hero,
+    .job-heading {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .date-range {
+      text-align: left;
+    }
+
+    .capability-group {
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+    }
+
+    .language-list p {
+      grid-template-columns: 1fr;
+      gap: 0.1rem;
+    }
+  }
+
+  @media print {
+    @page {
+      margin: 0.55in;
+    }
+
+    .resume-page {
+      max-width: none;
+    }
+
+    .pdf-link {
+      display: none;
+    }
+
+    .resume-hero {
+      padding-bottom: 0.8rem;
+    }
+
+    .resume-hero h1 {
+      font-size: 28pt;
+    }
+
+    .summary {
+      margin: 0.8rem 0 1.4rem;
+      font-size: 10pt;
+    }
+
+    .resume-section {
+      grid-template-columns: 8.5rem 1fr;
+      gap: 1.1rem;
+      padding-bottom: 1.4rem;
+    }
+
+    .section-heading h2 {
+      font-size: 14pt;
+    }
+
+    .section-body {
+      padding-left: 1rem;
+    }
+
+    .job {
+      padding-bottom: 1.1rem;
+    }
+
+    .job + .job {
+      padding-top: 1.1rem;
+    }
+
+    .job ul {
+      gap: 0.2rem;
+      margin-top: 0.6rem;
+    }
+
+    .capability-group {
+      grid-template-columns: 7.5rem 1fr;
+      padding: 0.45rem 0;
+    }
   }
 </style>
