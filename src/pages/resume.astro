@@ -1,0 +1,112 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+
+const experience = [
+  {
+    employer: 'Hengtech Co., Ltd.',
+    title: 'Backend Developer',
+    dateRange: 'October 2021 - May 2026',
+    location: 'Sri Racha, Chonburi, Thailand',
+    bullets: [
+      'Built backend services and REST APIs for the Tiny Little platform supporting seven commercial games.',
+      'Designed backend architecture supporting shared player services across the Tiny Little platform.',
+      'Developed gameplay features and backend functionality across Tiny Little Royale, Tiny Little Gangz, Tiny Little Deva, and Tiny Little Fly.',
+      'Integrated Photon Realtime, PlayFab, Xsolla, Agora, and Google AdMob into commercial game projects.',
+      'Managed deployment of seven browser games and two mobile titles on Google Play and the Apple App Store.',
+      'Deployed and maintained backend services using Firebase, Cloud Run, Heroku, Coolify, and Netlify.',
+      'Managed GitHub workflows and technical documentation.',
+      'Improved development workflow using AI-assisted tools and local LLMs for implementation, debugging, and refactoring.',
+    ],
+  },
+  {
+    employer: 'Wewasanad Co., Ltd.',
+    title: 'Software Programmer',
+    dateRange: 'June 2018 - September 2021',
+    location: 'Phaya Thai, Bangkok, Thailand',
+    bullets: [
+      'Developed enterprise software for private-sector clients, government agencies, and public organizations using C#, ASP.NET MVC, PHP, and Node.js.',
+      "Modernized TK Park's workstation, access control, POS, and kiosk systems.",
+      'Developed Windows applications integrating Thai Citizen ID smart card readers, barcode scanners, RFID devices, and digital signature pads.',
+      'Built backend services and frontend integrations for government information systems, including the Central Institute of Forensic Science (CIFS) and the Public Debt Management Office (PDMO).',
+      'Developed LINE chatbot solutions and customized enterprise applications based on client requirements.',
+      'Designed and maintained Microsoft SQL Server and Oracle databases.',
+      'Built Windows and web utility applications integrating enterprise software with specialized hardware.',
+    ],
+  },
+];
+
+const skillCategories = [
+  { label: 'Programming Languages', items: ['TypeScript', 'JavaScript', 'C#', 'PHP', 'SQL', 'Dart'] },
+  { label: 'Backend', items: ['Node.js', 'NestJS', 'Firebase Functions', 'ASP.NET MVC', 'Slim Framework', 'REST APIs'] },
+  { label: 'Databases', items: ['Firestore', 'Firebase Realtime Database', 'SQLite', 'Microsoft SQL Server', 'Oracle Database'] },
+  { label: 'Cloud', items: ['Firebase', 'Cloud Run', 'Heroku', 'Coolify', 'Netlify'] },
+  { label: 'Game Services', items: ['Photon Realtime', 'Azure PlayFab', 'Colyseus', 'Xsolla', 'Agora', 'Google AdMob', 'ironSource'] },
+];
+---
+
+<BaseLayout title="Resume" description="Resume of Veerakran Sereerungruangkul, Backend Developer.">
+  <h1>Resume</h1>
+  <p><a href="/resume.pdf">Download PDF</a></p>
+
+  <p>
+    Backend Developer with 7+ years of experience building enterprise software and backend
+    systems for live-service games. Experienced in developing APIs, designing databases, and
+    integrating cloud services, multiplayer platforms, payment systems, specialized hardware,
+    and third-party APIs.
+  </p>
+
+  <section>
+    <SectionHeading title="Employment History" />
+    {experience.map((job) => (
+      <div class="job">
+        <h3>{job.title} &mdash; {job.employer}</h3>
+        <p class="meta">{job.dateRange} &middot; {job.location}</p>
+        <ul>
+          {job.bullets.map((bullet) => <li>{bullet}</li>)}
+        </ul>
+      </div>
+    ))}
+  </section>
+
+  <section>
+    <SectionHeading title="Education" />
+    <p>Bachelor of Science, Information Technology and Communication</p>
+    <p class="meta">Sripatum University, Chonburi Campus &middot; 2018</p>
+  </section>
+
+  <section>
+    <SectionHeading title="Technical Skills" />
+    {skillCategories.map((cat) => (
+      <div class="skill-category">
+        <h3>{cat.label}</h3>
+        <p>{cat.items.join(', ')}</p>
+      </div>
+    ))}
+  </section>
+
+  <section>
+    <SectionHeading title="Languages" />
+    <p>Thai (Native), English (Professional Working Proficiency)</p>
+  </section>
+</BaseLayout>
+
+<style>
+  .job {
+    margin-bottom: var(--spacing-3);
+  }
+
+  .meta {
+    color: var(--color-muted);
+    font-size: 0.9rem;
+  }
+
+  .skill-category {
+    margin-bottom: var(--spacing-1);
+  }
+
+  .skill-category h3 {
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+  }
+</style>

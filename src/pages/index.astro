@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import SkillGroup from '../components/SkillGroup.astro';
+
+const skillGroups = [
+  {
+    label: 'Backend',
+    items: ['REST APIs', 'Node.js', 'NestJS', 'ASP.NET MVC', 'Database Design'],
+  },
+  {
+    label: 'Cloud',
+    items: ['Firebase', 'Cloud Run', 'Heroku', 'Coolify', 'Netlify'],
+  },
+  {
+    label: 'Databases',
+    items: ['Firestore', 'SQL Server', 'Oracle Database', 'SQLite'],
+  },
+  {
+    label: 'Live-Service Games',
+    items: ['Photon Realtime', 'Azure PlayFab', 'Colyseus', 'Xsolla', 'Agora'],
+  },
+];
+---
+
+<BaseLayout
+  title="Backend Developer"
+  description="Veerakran Sereerungruangkul (Vee) — Backend Developer specializing in platform integration, cloud services, and live-service games."
+>
+  <h1>Veerakran Sereerungruangkul</h1>
+  <p class="title">Backend Developer &middot; Platform &amp; Systems Integration &middot; Cloud &amp; Live-Service Games</p>
+
+  <p>
+    Backend Developer with 7+ years of experience building enterprise software and backend
+    systems for live-service games. Experienced in developing APIs, designing databases, and
+    integrating cloud services, multiplayer platforms, payment systems, specialized hardware,
+    and third-party APIs.
+  </p>
+
+  <p>
+    The recurring theme throughout my career is solving integration problems. Rather than
+    specializing in one framework or technology, I have often been responsible for researching
+    unfamiliar technologies, understanding how they work, integrating them into existing
+    systems, and making them reliable enough for production use.
+  </p>
+
+  <section>
+    <SectionHeading title="Technical Skills" />
+    {skillGroups.map((group) => <SkillGroup label={group.label} items={group.items} />)}
+  </section>
+</BaseLayout>
+
+<style>
+  .title {
+    color: var(--color-muted);
+    margin-top: -0.5rem;
+  }
+</style>
