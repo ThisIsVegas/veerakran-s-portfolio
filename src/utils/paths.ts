@@ -7,5 +7,9 @@ export const withBase = (path = '') => `${basePath}${path.replace(/^\/+/, '')}`;
 export const withoutBase = (pathname: string) => {
   const prefix = basePath === '/' ? '' : basePath.slice(0, -1);
   const relativePath = prefix && pathname.startsWith(prefix) ? pathname.slice(prefix.length) : pathname;
-  return relativePath || '/';
+  if (!relativePath || relativePath === '/') {
+    return '/';
+  }
+
+  return relativePath.replace(/\/+$/, '');
 };
