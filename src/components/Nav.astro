@@ -1,35 +1,30 @@
 ---
+import { withBase, withoutBase } from '../utils/paths';
+
 const links = [
-  { href: '/', label: 'Home' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/resume', label: 'Resume' },
-  { href: '/contact', label: 'Contact' },
+  { href: withBase(), path: '/', label: 'Home' },
+  { href: withBase('resume'), path: '/resume', label: 'Resume' },
 ];
+
+const currentPath = Astro.url.pathname;
+const relativePath = withoutBase(currentPath);
 ---
 
 <nav aria-label="Primary">
   <ul class="nav-list">
     {links.map((link) => (
-      <li><a href={link.href}>{link.label}</a></li>
+      <li>
+        <a href={link.href} aria-current={relativePath === link.path ? 'page' : undefined}>
+          {link.label}
+        </a>
+      </li>
     ))}
   </ul>
-
-  <details class="nav-toggle">
-    <summary>Menu</summary>
-    <ul>
-      {links.map((link) => (
-        <li><a href={link.href}>{link.label}</a></li>
-      ))}
-    </ul>
-  </details>
 </nav>
 
 <style>
   nav {
-    border-bottom: 1px solid var(--color-border);
-    max-width: var(--content-width);
-    margin-inline: auto;
-    padding: var(--spacing-2);
+    display: block;
   }
 
   ul {
@@ -39,34 +34,26 @@ const links = [
   }
 
   .nav-list {
-    display: none;
-    gap: var(--spacing-3);
-  }
-
-  summary {
-    cursor: pointer;
-    font-weight: 600;
-    list-style: none;
-  }
-
-  summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .nav-toggle ul {
     display: flex;
-    gap: var(--spacing-3);
-    margin-top: var(--spacing-2);
-    flex-wrap: wrap;
+    gap: clamp(0.85rem, 2.5vw, 1.5rem);
   }
 
-  @media (min-width: 40rem) {
-    .nav-list {
-      display: flex;
-    }
+  a {
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-underline-offset: 0.3em;
+  }
 
-    .nav-toggle {
-      display: none;
-    }
+  a:hover,
+  a[aria-current='page'] {
+    color: var(--color-text);
+  }
+
+  a[aria-current='page'] {
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent);
+    text-decoration-thickness: 0.12rem;
   }
 </style>

@@ -4,10 +4,19 @@ dist/
 
 # dependencies
 node_modules/
+test-results/
+playwright-report/
 
 # environment variables
-.env
-.env.production
+.env*
+!.env.example
+
+# local agent and browser tooling
+.playwright-mcp/
+.serena/
+
+# temporary visual QA
+/resume-*.png
 
 # macOS-specific files
 .DS_Store
