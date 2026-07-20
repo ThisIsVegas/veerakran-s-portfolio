@@ -1,3 +1,287 @@
 ---
-return Astro.redirect(`${import.meta.env.BASE_URL.replace(/\/?$/, '/')}#experience`, 301);
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBase } from '../../utils/paths';
+
+const projects = [
+  {
+    id: 'tiny-little-platform',
+    domain: 'Live-service games',
+    title: 'Tiny Little Platform',
+    summary:
+      'Shared backend platform supporting seven commercial games across browser, Android, and iOS.',
+    image: withBase('images/projects/tiny-little-platform.svg'),
+    imageAlt: 'Conceptual placeholder showing connected screens and shared player-service nodes.',
+    contributions: [
+      'Designed shared APIs and database structures for player accounts, cloud saves, progression, and online services.',
+      'Developed gameplay features and backend functionality across Tiny Little Royale, Tiny Little Gangz, Tiny Little Deva, and Tiny Little Fly.',
+      'Supported deployment of the wider seven-game platform across browser and mobile releases.',
+    ],
+    scopeLabel: 'Public scope',
+    scope: 'Seven commercial games released across browser, Android, and iOS.',
+  },
+  {
+    id: 'rentpilot',
+    domain: 'Desktop software',
+    title: 'RentPilot',
+    summary: 'Commercial offline dormitory management system for Windows.',
+    image: withBase('images/projects/rentpilot.svg'),
+    imageAlt: 'Conceptual placeholder showing property records, an offline application, and a backup copy.',
+    contributions: [
+      'Built the offline Windows application around a local database for day-to-day dormitory management.',
+      'Added OneDrive backup support and deployed the application for an active client.',
+      'Continue to maintain the production application.',
+    ],
+    scopeLabel: 'Production context',
+    scope: 'Deployed for and maintained for an active commercial client.',
+  },
+  {
+    id: 'welearn-pro',
+    domain: 'Enterprise learning',
+    title: 'WeLearn Pro',
+    summary: 'Enterprise learning platform adapted to client-specific requirements.',
+    image: withBase('images/projects/welearn-pro.svg'),
+    imageAlt: 'Conceptual placeholder showing video playback, progress records, and learning checkpoints.',
+    contributions: [
+      'Co-designed the backend architecture.',
+      'Implemented learning progress tracking, HLS streaming, and YouTube playback.',
+      'Implemented AFK detection and in-video quizzes.',
+    ],
+    scopeLabel: 'Project context',
+    scope: 'A master learning platform customised by the company for individual client deployments.',
+  },
+  {
+    id: 'public-sector-solutions',
+    domain: 'Public sector',
+    title: 'Government & Public Sector Solutions',
+    summary: 'Enterprise solutions for government agencies and public-sector organisations.',
+    image: withBase('images/projects/public-sector.svg'),
+    imageAlt: 'Conceptual placeholder showing service terminals and access devices connected to a central workflow.',
+    contributions: [
+      "Modernised TK Park's workstation management, RFID access control, POS integration, and kiosk systems.",
+      'Developed internal workflow systems and backend integrations for the Central Institute of Forensic Science and the Public Debt Management Office.',
+      'Developed public-facing applications including U-NAI for missing persons and unidentified bodies.',
+    ],
+    scopeLabel: 'Public context',
+    scope: 'Client work for government agencies and public-sector organisations.',
+  },
+];
 ---
+
+<BaseLayout
+  title="Selected Projects"
+  description="Selected backend, systems integration, live-service game, enterprise, and desktop software projects by Veerakran Sereerungruangkul."
+>
+  <header class="projects-hero">
+    <p class="section-label">Project evidence</p>
+    <div>
+      <h1>Selected projects</h1>
+      <p class="intro">
+        A selection of production work across backend platforms, enterprise systems, and desktop
+        software. The records focus on what each system did and the parts I contributed to, while
+        leaving confidential implementation details out.
+      </p>
+    </div>
+  </header>
+
+  <div class="project-list">
+    {projects.map((project) => (
+      <section id={project.id} class="project-record" aria-labelledby={`${project.id}-title`}>
+        <p class="section-label">{project.domain}</p>
+        <article>
+          <figure class="project-visual">
+            <img
+              src={project.image}
+              alt={project.imageAlt}
+              width="1200"
+              height="720"
+              loading="lazy"
+              decoding="async"
+            />
+            <figcaption>Concept image · Replace with approved project material.</figcaption>
+          </figure>
+
+          <div class="project-copy">
+            <header class="project-heading">
+              <h2 id={`${project.id}-title`}>{project.title}</h2>
+              <p>{project.summary}</p>
+            </header>
+
+            <div class="project-details">
+              <div>
+                <h3>What I worked on</h3>
+                <ul>
+                  {project.contributions.map((contribution) => <li>{contribution}</li>)}
+                </ul>
+              </div>
+              <aside>
+                <h3>{project.scopeLabel}</h3>
+                <p>{project.scope}</p>
+              </aside>
+            </div>
+          </div>
+        </article>
+      </section>
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  .projects-hero,
+  .project-record {
+    display: grid;
+    grid-template-columns: minmax(9rem, 12rem) minmax(0, 1fr);
+    column-gap: clamp(2rem, 6vw, 5rem);
+  }
+
+  .projects-hero {
+    align-items: start;
+    padding-bottom: clamp(5rem, 11vw, 8.5rem);
+  }
+
+  .section-label,
+  figcaption,
+  .project-details h3 {
+    color: var(--color-muted);
+    font-family: var(--font-utility);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .section-label {
+    padding-top: 0.45rem;
+  }
+
+  .projects-hero h1 {
+    font-size: clamp(2.6rem, 7vw, 5.75rem);
+  }
+
+  .intro {
+    max-width: 44rem;
+    margin-top: clamp(1.75rem, 4vw, 3rem);
+    color: var(--color-muted);
+    font-size: clamp(1.08rem, 1rem + 0.5vw, 1.35rem);
+  }
+
+  .project-record {
+    scroll-margin-top: 2rem;
+  }
+
+  .project-record > .section-label {
+    padding-top: clamp(3.35rem, 7vw, 5.85rem);
+  }
+
+  .project-record > article {
+    min-width: 0;
+    padding: clamp(3rem, 7vw, 5.5rem) 0 clamp(5rem, 11vw, 8.5rem)
+      clamp(1.75rem, 4vw, 3.5rem);
+    border-left: 1px solid var(--color-accent);
+  }
+
+  .project-visual {
+    margin: 0;
+  }
+
+  .project-visual img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 5 / 3;
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+  }
+
+  figcaption {
+    margin-top: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: none;
+  }
+
+  .project-copy {
+    margin-top: clamp(2.25rem, 5vw, 4rem);
+  }
+
+  .project-heading {
+    display: grid;
+    grid-template-columns: minmax(12rem, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    align-items: start;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .project-heading h2 {
+    max-width: 24rem;
+  }
+
+  .project-heading p {
+    max-width: 36rem;
+    color: var(--color-muted);
+    font-size: clamp(1rem, 0.96rem + 0.25vw, 1.15rem);
+  }
+
+  .project-details {
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(12rem, 0.75fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    padding-top: 2rem;
+  }
+
+  .project-details h3 {
+    margin-bottom: 1rem;
+  }
+
+  .project-details ul {
+    display: grid;
+    gap: 0.75rem;
+    padding-left: 1.15rem;
+    color: var(--color-muted);
+  }
+
+  .project-details aside {
+    padding-left: clamp(1.25rem, 3vw, 2rem);
+    border-left: 1px solid var(--color-border);
+  }
+
+  .project-details aside p {
+    color: var(--color-muted);
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 48rem) {
+    .project-heading,
+    .project-details {
+      grid-template-columns: 1fr;
+    }
+
+    .project-details aside {
+      padding: 1.5rem 0 0;
+      border-top: 1px solid var(--color-border);
+      border-left: 0;
+    }
+  }
+
+  @media (max-width: 45rem) {
+    .projects-hero,
+    .project-record {
+      grid-template-columns: 1fr;
+    }
+
+    .projects-hero {
+      gap: 1.25rem;
+      padding-bottom: 5rem;
+    }
+
+    .project-record > .section-label {
+      padding-top: 0;
+    }
+
+    .project-record > article {
+      margin-top: 0.85rem;
+      padding: 2.5rem 0 5rem;
+      border-top: 1px solid var(--color-accent);
+      border-left: 0;
+    }
+  }
+</style>

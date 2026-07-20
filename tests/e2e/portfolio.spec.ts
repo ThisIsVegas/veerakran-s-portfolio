@@ -3,9 +3,16 @@ import { expect, test } from '@playwright/test';
 test('visitor can navigate the professional portfolio', async ({ page }) => {
   await page.goto('/');
 
-  await expect(page.getByRole('heading', { level: 1, name: 'Veerakran Sereerungruangkul' })).toBeVisible();
+  await expect(page.getByText('Veerakran Sereerungruangkul', { exact: true })).toBeVisible();
+  await expect(
+    page.getByRole('heading', {
+      level: 1,
+      name: 'Backend systems across live-service games and enterprise software.',
+    }),
+  ).toBeVisible();
   await expect(page.getByRole('navigation', { name: 'Primary' }).getByRole('link')).toHaveText([
     'Home',
+    'Projects',
     'Resume',
   ]);
   await expect(page.getByRole('link', { name: 'Home' })).toHaveAttribute('aria-current', 'page');
@@ -17,12 +24,44 @@ test('visitor can navigate the professional portfolio', async ({ page }) => {
   await expect(page.getByRole('link', { name: 'Download PDF' })).toHaveAttribute('href', '/resume.pdf');
 });
 
-test('retired routes direct visitors to relevant homepage sections', async ({ page }) => {
+test('visitor can review selected projects', async ({ page }) => {
+  await page.goto('/');
+
+  const projectsLink = page
+    .getByRole('navigation', { name: 'Primary' })
+    .getByRole('link', { name: 'Projects', exact: true });
+  await expect(projectsLink).toHaveAttribute('href', '/projects/');
+  await projectsLink.click();
+  await expect(page).toHaveURL(/\/projects\/?$/);
+  await expect(projectsLink).toHaveAttribute('aria-current', 'page');
+  await expect(page.getByRole('heading', { level: 1, name: 'Selected projects' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 2, name: 'Tiny Little Platform' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 2, name: 'RentPilot' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 2, name: 'WeLearn Pro' })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { level: 2, name: 'Government & Public Sector Solutions' }),
+  ).toBeVisible();
+  await expect(
+    page
+      .getByRole('region', { name: 'Tiny Little Platform' })
+      .getByText('Seven commercial games released across browser, Android, and iOS.', {
+        exact: true,
+      }),
+  ).toBeVisible();
+  await expect(
+    page
+      .getByRole('region', { name: 'RentPilot' })
+      .getByText('Deployed for and maintained for an active commercial client.', { exact: true }),
+  ).toBeVisible();
+  await expect(page.locator('figure.project-visual')).toHaveCount(4);
+  await expect(page.getByText('Concept image · Replace with approved project material.')).toHaveCount(4);
+  await expect(page.getByText('Photon Realtime', { exact: true })).toHaveCount(0);
+  await expect(page.getByText('Electron', { exact: true })).toHaveCount(0);
+});
+
+test('retired contact route directs visitors to the footer', async ({ page }) => {
   await page.goto('/contact');
   await expect(page).toHaveURL(/\/#contact$/);
-
-  await page.goto('/projects');
-  await expect(page).toHaveURL(/\/#experience$/);
 });
 
 test('resume PDF is publicly available', async ({ request }) => {
@@ -64,17 +103,20 @@ test('system appearance follows the operating system preference', async ({ page 
   await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(245, 246, 243)');
 });
 
-test('homepage presents experience by professional domain', async ({ page }) => {
+test('homepage moves from a brief introduction into the detailed career story', async ({ page }) => {
   await page.goto('/');
 
-  await expect(page.getByRole('heading', { level: 2, name: 'Systems integration' })).toBeVisible();
-  await expect(page.getByRole('heading', { level: 2, name: 'Experience across systems' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 2, name: 'How I work' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 3, name: 'Learn' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 3, name: 'Integrate' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 3, name: 'Deliver' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 2, name: 'Two industries, similar problems' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 3, name: 'Enterprise software' })).toBeVisible();
   await expect(page.getByRole('heading', { level: 3, name: 'Live-service games' })).toBeVisible();
-  await expect(page.getByRole('heading', { level: 3, name: 'Enterprise IT systems' })).toBeVisible();
-  await expect(page.getByRole('heading', { level: 2, name: 'Technical capabilities' })).toBeVisible();
-  await expect(page.getByText('Hengtech Co., Ltd.')).toHaveCount(0);
-  await expect(page.getByText('Wewasanad Co., Ltd.')).toHaveCount(0);
-  await expect(page.getByRole('link', { name: 'View detailed experience' })).toHaveAttribute('href', '/resume');
+  await expect(page.getByRole('heading', { level: 2, name: 'Selected work' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 2, name: 'Practical software over clever software' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 2, name: 'Technical capabilities' })).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Read the full résumé' })).toHaveAttribute('href', '/resume');
   await expect(page.locator('#contact')).toContainText('veerakran.s@gmail.com');
 });
 
@@ -109,11 +151,7 @@ test('portfolio remains usable without horizontal overflow on mobile', async ({ 
   await page.setViewportSize({ width: 320, height: 800 });
 
   await page.goto('/');
-  const nameLineCount = await page.getByRole('heading', { level: 1 }).evaluate((heading) => {
-    const styles = getComputedStyle(heading);
-    return heading.getBoundingClientRect().height / Number.parseFloat(styles.lineHeight);
-  });
-  expect(nameLineCount).toBeLessThanOrEqual(2.1);
+  await expect(page.getByText('Veerakran Sereerungruangkul', { exact: true })).toBeVisible();
 
   for (const viewport of [
     { width: 320, height: 800 },
@@ -121,7 +159,7 @@ test('portfolio remains usable without horizontal overflow on mobile', async ({ 
     { width: 1440, height: 900 },
   ]) {
     await page.setViewportSize(viewport);
-    for (const path of ['/', '/resume']) {
+    for (const path of ['/', '/projects/', '/resume']) {
       await page.goto(path);
       const hasHorizontalOverflow = await page.evaluate(
         () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
@@ -175,7 +213,7 @@ test('primary text, supporting text, and links retain accessible contrast', asyn
 
   for (const theme of ['light', 'dark']) {
     await page.getByLabel('Theme').selectOption(theme);
-    for (const selector of ['body', '.hero-summary', '.resume-link']) {
+    for (const selector of ['body', '.hero-summary', '.text-link']) {
       const ratio = await page.locator(selector).first().evaluate((element) => {
         const parseColour = (value: string) =>
           value.match(/[\d.]+/g)?.slice(0, 3).map(Number) ?? [0, 0, 0];
