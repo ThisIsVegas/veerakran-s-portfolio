@@ -1,12 +1,13 @@
 ---
 import Nav from './Nav.astro';
 import ThemeControl from './ThemeControl.astro';
-import { withBase } from '../utils/paths';
+import { withBase, withoutBase } from '../utils/paths';
 
 const homeHref = withBase();
+const isHomepage = withoutBase(Astro.url.pathname) === '/';
 ---
 
-<header>
+<header data-homepage={isHomepage ? 'true' : undefined}>
   <div class="header-inner">
     <a class="site-identity" href={homeHref}>Veerakran S.</a>
     <div class="header-controls">
@@ -16,10 +17,59 @@ const homeHref = withBase();
   </div>
 </header>
 
+<script>
+  const header = document.querySelector('header');
+  if (header) {
+    const updateScrolled = () => {
+      header.dataset.scrolled = window.scrollY > 0 ? 'true' : 'false';
+    };
+    updateScrolled();
+    window.addEventListener('scroll', updateScrolled, { passive: true });
+  }
+</script>
+
 <style>
   header {
-    border-bottom: 1px solid var(--color-border);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    border-bottom: 1px solid transparent;
+    background: transparent;
+    transition: background-color 200ms ease, border-color 200ms ease;
+  }
+
+  :global(:root) {
+    --header-height: 4.5rem;
+  }
+
+  @media (max-width: 35rem) {
+    :global(:root) {
+      --header-height: 7rem;
+    }
+  }
+
+  header[data-scrolled='true'] {
+    border-bottom-color: var(--color-border);
     background: var(--color-bg);
+  }
+
+  header:not([data-homepage='true']) .site-identity {
+    opacity: 1;
+    transform: none;
+  }
+
+  header[data-homepage='true'] .site-identity {
+    opacity: 0;
+    transform: translateY(-0.4rem);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    header[data-homepage='true'] .site-identity {
+      opacity: 1;
+      transform: none;
+    }
   }
 
   .header-inner {
@@ -36,6 +86,7 @@ const homeHref = withBase();
     color: var(--color-text);
     font-weight: 700;
     text-decoration: none;
+    transition: opacity 200ms ease, transform 200ms ease;
   }
 
   .site-identity:hover {

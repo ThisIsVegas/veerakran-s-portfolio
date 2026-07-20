@@ -98,7 +98,11 @@ body {
 main {
   width: min(100%, var(--site-width));
   margin-inline: auto;
-  padding: clamp(3.5rem, 8vw, var(--spacing-6)) clamp(1.25rem, 4vw, 2rem);
+  padding: calc(var(--header-height) + clamp(1.5rem, 4vw, 2.5rem)) clamp(1.25rem, 4vw, 2rem) clamp(3.5rem, 8vw, var(--spacing-6));
+}
+
+body[data-homepage='true'] main {
+  padding-top: 0;
 }
 
 h1,
@@ -155,6 +159,17 @@ select {
 ::selection {
   color: var(--color-bg);
   background: var(--color-text);
+}
+
+.kicker {
+  color: var(--color-muted);
+  font: 600 var(--text-label) / 1.5 var(--font-utility);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.text-link {
+  font-weight: 650;
 }
 
 .skip-link {

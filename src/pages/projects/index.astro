@@ -5,15 +5,15 @@ import { withBase } from '../../utils/paths';
 ---
 <BaseLayout title="Selected Projects" description="Selected backend, systems integration, live-service game, enterprise, and desktop software projects by Veerakran Sereerungruangkul.">
   <header class="projects-hero">
-    <p class="eyebrow">Selected work / 2018–2026</p>
+    <p class="kicker">Selected work / 2018–2026</p>
     <h1>Selected projects</h1>
     <p>A concise record of production work across backend platforms, enterprise systems, and desktop software. Confidential implementation details remain out of scope.</p>
   </header>
 
   <div class="projects-layout">
-    <nav class="project-index" aria-label="Project index">
+    <nav class="project-index" aria-label="Project index" data-project-index>
       <p>Index</p>
-      <ol>{projects.map((project, index) => <li><a href={`#${project.slug}`}><span>{String(index + 1).padStart(2, '0')}</span>{project.title}</a></li>)}</ol>
+      <ol>{projects.map((project, index) => <li><a href={`#${project.slug}`} data-index-link={project.slug}><span>{String(index + 1).padStart(2, '0')}</span>{project.title}</a></li>)}</ol>
     </nav>
     <div class="project-list">
       {projects.map((project, index) => (
@@ -27,10 +27,45 @@ import { withBase } from '../../utils/paths';
     </div>
   </div>
 </BaseLayout>
+
+<script>
+  const nav = document.querySelector<HTMLElement>('[data-project-index]');
+  if (nav) {
+    const links = new Map(
+      Array.from(nav.querySelectorAll<HTMLAnchorElement>('[data-index-link]')).map((link) => [
+        link.dataset.indexLink,
+        link,
+      ]),
+    );
+
+    const setActive = (id: string) => {
+      links.forEach((link, linkId) => {
+        if (linkId === id) link.setAttribute('aria-current', 'true');
+        else link.removeAttribute('aria-current');
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting);
+        if (visible.length === 0) return;
+        const topmost = visible.reduce((a, b) => (a.boundingClientRect.top < b.boundingClientRect.top ? a : b));
+        setActive(topmost.target.id);
+      },
+      { rootMargin: '-15% 0px -70% 0px' },
+    );
+
+    links.forEach((_, id) => {
+      const section = id ? document.getElementById(id) : null;
+      if (section) observer.observe(section);
+    });
+  }
+</script>
+
 <style>
   .projects-hero { display:grid; grid-template-columns:minmax(11rem,13rem) minmax(0,1.5fr) minmax(15rem,.8fr); gap:clamp(2rem,5vw,4rem); align-items:start; padding-bottom:clamp(5rem,10vw,8rem); }
-  .projects-hero>.eyebrow { white-space:nowrap; }
-  .eyebrow,.project-index>p,.project-number,figcaption { color:var(--color-muted); font:600 var(--text-label)/1.5 var(--font-utility); letter-spacing:.08em; text-transform:uppercase; }
+  .projects-hero>.kicker { white-space:nowrap; }
+  .project-index>p,.project-number,figcaption { color:var(--color-muted); font:600 var(--text-label)/1.5 var(--font-utility); letter-spacing:.08em; text-transform:uppercase; }
   .projects-hero h1 { font-size:var(--text-page); }
   .projects-hero>p:last-child { color:var(--color-muted); }
   .projects-layout { display:grid; grid-template-columns:minmax(10rem,14rem) minmax(0,1fr); gap:clamp(2rem,6vw,5rem); }
@@ -39,6 +74,7 @@ import { withBase } from '../../utils/paths';
   .project-index a { display:grid; grid-template-columns:2rem 1fr; gap:.4rem; padding:.55rem 0; color:var(--color-muted); font-size:var(--text-supporting); line-height:1.4; text-decoration:none; }
   .project-index a span { color:var(--color-accent); font-family:var(--font-utility); }
   .project-index a:hover { color:var(--color-text); }
+  .project-index a[aria-current='true'] { color:var(--color-text); text-decoration:underline; text-decoration-color:var(--color-accent); text-decoration-thickness:.12rem; text-underline-offset:.3em; }
   .project-record { scroll-margin-top:2rem; padding-bottom:clamp(5rem,11vw,9rem); }
   .project-card { display:block; color:var(--color-text); text-decoration:none; }
   .project-visual { margin:0; overflow:hidden; }

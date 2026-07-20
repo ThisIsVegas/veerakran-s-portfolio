@@ -87,11 +87,11 @@ const resumePDFHref = withBase('resume.pdf');
   <article class="resume-page">
     <header class="resume-hero">
       <div>
-        <p class="eyebrow">Résumé / Career overview</p>
+        <p class="kicker">Résumé / Career overview</p>
         <h1>Veerakran Sereerungruangkul</h1>
         <p class="candidate-name">Backend Developer · Platform &amp; Systems Integration</p>
       </div>
-      <a class="pdf-link" href={resumePDFHref}>Download PDF</a>
+      <a class="text-link pdf-link" href={resumePDFHref}>Download PDF</a>
     </header>
 
     <p class="summary">
@@ -103,7 +103,7 @@ const resumePDFHref = withBase('resume.pdf');
 
     <section class="resume-section" aria-labelledby="employment-heading">
       <div class="section-heading">
-        <p class="eyebrow">Experience</p>
+        <p class="kicker">Experience</p>
         <h2 id="employment-heading">Employment history</h2>
       </div>
       <div class="section-body jobs">
@@ -120,7 +120,7 @@ const resumePDFHref = withBase('resume.pdf');
             <ul>
               {job.bullets.map((bullet) => <li>{bullet}</li>)}
             </ul>
-            <a class="related-link" href={job.projectHref}>{job.projectLabel} <span aria-hidden="true">→</span></a>
+            <a class="text-link related-link" href={job.projectHref}>{job.projectLabel} <span aria-hidden="true">→</span></a>
           </article>
         ))}
       </div>
@@ -128,7 +128,7 @@ const resumePDFHref = withBase('resume.pdf');
 
     <section class="resume-section" aria-labelledby="education-heading">
       <div class="section-heading">
-        <p class="eyebrow">Study</p>
+        <p class="kicker">Study</p>
         <h2 id="education-heading">Education</h2>
       </div>
       <div class="section-body education">
@@ -140,7 +140,7 @@ const resumePDFHref = withBase('resume.pdf');
 
     <section class="resume-section" aria-labelledby="skills-heading">
       <div class="section-heading">
-        <p class="eyebrow">Technical work</p>
+        <p class="kicker">Technical work</p>
         <h2 id="skills-heading">Technical capabilities</h2>
       </div>
       <div class="section-body capability-list">
@@ -157,7 +157,7 @@ const resumePDFHref = withBase('resume.pdf');
 
     <section class="resume-section" aria-labelledby="languages-heading">
       <div class="section-heading">
-        <p class="eyebrow">Communication</p>
+        <p class="kicker">Communication</p>
         <h2 id="languages-heading">Languages</h2>
       </div>
       <div class="section-body language-list">
@@ -199,10 +199,8 @@ const resumePDFHref = withBase('resume.pdf');
     display: inline-block;
     margin-top: 1.35rem;
     font-size: var(--text-supporting);
-    font-weight: 650;
   }
 
-  .eyebrow,
   .date-range,
   .location {
     color: var(--color-muted);
@@ -217,7 +215,6 @@ const resumePDFHref = withBase('resume.pdf');
     flex: none;
     padding-bottom: 0.3rem;
     font-size: var(--text-supporting);
-    font-weight: 650;
   }
 
   .summary {
