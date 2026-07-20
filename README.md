@@ -29,4 +29,6 @@ Archivo and Public Sans are self-hosted under the SIL Open Font License. License
 
 ## Project imagery
 
-Project visuals live in `public/images/projects/`. The current SVG covers are conceptual placeholders and are labelled as such on the Projects page. Replace them only with public or permission-cleared material, and remove the placeholder caption when approved imagery is available.
+Project visuals live in `public/images/projects/`. The current SVG covers, gallery frames, and app lettermarks are conceptual placeholders and are labelled as such on the site. Replace them only with public or permission-cleared material, and update the matching record in `src/data/projects.ts`.
+
+Project records accept multiple images and optional native video. Videos must include controls, a poster image, and a transcript when speech carries information; they must not autoplay. Keep media captions factual and omit confidential product or client details.

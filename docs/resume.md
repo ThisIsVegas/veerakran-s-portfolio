@@ -11,7 +11,7 @@ Purpose
 
 Last Updated
 
-May 2026
+July 2026
 
 ---
 
@@ -241,6 +241,16 @@ Graduated
 
 Shared backend platform supporting seven commercial games across web, Android, and iOS.
 
+Public Links
+
+- Tiny Little: https://tinylittle.io/
+- Tiny Little on Google Play: https://play.google.com/store/apps/details?id=com.tinylittle.app
+- Tiny Little Royale on Google Play: https://play.google.com/store/apps/details?id=com.hengtech.tinylittleroyale
+- Tiny Little Royale on the Apple App Store: https://apps.apple.com/app/id6743611360
+- Tiny Little Deva on Google Play (currently listed as Deva: Hero Roguelike TD): https://play.google.com/store/apps/details?id=com.hengtech.tinylittledeva
+- Devares on Google Play: https://play.google.com/store/apps/details?id=com.hengtech.devares
+- Devares on the Apple App Store: https://apps.apple.com/app/id6744045988
+
 Resume Bullets
 
 - Designed shared APIs and database structures for player accounts, cloud saves, progression, and online services.
@@ -252,6 +262,10 @@ Resume Bullets
 
 Enterprise learning platform adapted to client-specific requirements.
 
+Public Link
+
+https://welearnpro.com/
+
 Resume Bullets
 
 - Co-designed backend architecture.
@@ -262,6 +276,10 @@ Resume Bullets
 ## RentPilot
 
 Commercial offline dormitory management system for Windows.
+
+Public Demo Status
+
+Product demo in preparation.
 
 Resume Bullets
 

@@ -7,9 +7,12 @@ test('visitor can navigate the professional portfolio', async ({ page }) => {
   await expect(
     page.getByRole('heading', {
       level: 1,
-      name: 'Backend systems across live-service games and enterprise software.',
+      name: 'Veerakran Sereerungruangkul',
     }),
   ).toBeVisible();
+  await expect(page.getByText('Backend Developer', { exact: true }).first()).toBeVisible();
+  await expect(page.getByText('Platform & Systems Integration', { exact: true })).toBeVisible();
+  await expect(page.getByText('Cloud & Live-Service Games', { exact: true })).toBeVisible();
   await expect(page.getByRole('navigation', { name: 'Primary' }).getByRole('link')).toHaveText([
     'Home',
     'Projects',
@@ -20,7 +23,9 @@ test('visitor can navigate the professional portfolio', async ({ page }) => {
   await page.getByRole('link', { name: 'Resume' }).click();
   await expect(page).toHaveURL(/\/resume\/?$/);
   await expect(page.getByRole('link', { name: 'Resume' })).toHaveAttribute('aria-current', 'page');
-  await expect(page.getByRole('heading', { level: 1, name: 'Resume' })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'Veerakran Sereerungruangkul' }),
+  ).toBeVisible();
   await expect(page.getByRole('link', { name: 'Download PDF' })).toHaveAttribute('href', '/resume.pdf');
 });
 
@@ -41,22 +46,44 @@ test('visitor can review selected projects', async ({ page }) => {
   await expect(
     page.getByRole('heading', { level: 2, name: 'Government & Public Sector Solutions' }),
   ).toBeVisible();
-  await expect(
-    page
-      .getByRole('region', { name: 'Tiny Little Platform' })
-      .getByText('Seven commercial games released across browser, Android, and iOS.', {
-        exact: true,
-      }),
-  ).toBeVisible();
-  await expect(
-    page
-      .getByRole('region', { name: 'RentPilot' })
-      .getByText('Deployed for and maintained for an active commercial client.', { exact: true }),
-  ).toBeVisible();
+  await expect(page.getByRole('link', { name: /Explore Tiny Little Platform/ })).toHaveAttribute(
+    'href',
+    '/projects/tiny-little-platform/',
+  );
   await expect(page.locator('figure.project-visual')).toHaveCount(4);
   await expect(page.getByText('Concept image · Replace with approved project material.')).toHaveCount(4);
   await expect(page.getByText('Photon Realtime', { exact: true })).toHaveCount(0);
   await expect(page.getByText('Electron', { exact: true })).toHaveCount(0);
+});
+
+test('project records support rich media and verified public destinations', async ({ page }) => {
+  await page.goto('/projects/tiny-little-platform/');
+
+  await expect(page.getByRole('heading', { level: 1, name: 'Tiny Little Platform' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Projects' })).toHaveAttribute('aria-current', 'page');
+  await expect(page.getByRole('link', { name: 'Visit Tiny Little' })).toHaveAttribute(
+    'href',
+    'https://tinylittle.io/',
+  );
+  await expect(page.getByRole('heading', { level: 2, name: 'Related products' })).toBeVisible();
+  await expect(page.getByText('Tiny Little Royale', { exact: true })).toBeVisible();
+  await expect(page.getByText('Tiny Little Deva', { exact: true })).toBeVisible();
+  await expect(page.getByText('Devares', { exact: true })).toBeVisible();
+  await expect(page.locator('.media-gallery figure')).toHaveCount(3);
+  await expect(page.getByRole('link', { name: /Tiny Little Royale on Google Play/ })).toHaveAttribute(
+    'href',
+    'https://play.google.com/store/apps/details?id=com.hengtech.tinylittleroyale',
+  );
+
+  await page.goto('/projects/welearn-pro/');
+  await expect(page.getByRole('link', { name: 'Visit WeLearn Pro' })).toHaveAttribute(
+    'href',
+    'https://welearnpro.com/',
+  );
+
+  await page.goto('/projects/rentpilot/');
+  await expect(page.getByText('Product demo in preparation', { exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: /demo/i })).toHaveCount(0);
 });
 
 test('retired contact route directs visitors to the footer', async ({ page }) => {
@@ -159,12 +186,12 @@ test('portfolio remains usable without horizontal overflow on mobile', async ({ 
     { width: 1440, height: 900 },
   ]) {
     await page.setViewportSize(viewport);
-    for (const path of ['/', '/projects/', '/resume']) {
+    for (const path of ['/', '/projects/', '/projects/tiny-little-platform/', '/resume']) {
       await page.goto(path);
       const hasHorizontalOverflow = await page.evaluate(
         () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
       );
-      expect(hasHorizontalOverflow).toBe(false);
+      expect(hasHorizontalOverflow, `${path} overflows at ${viewport.width}px`).toBe(false);
     }
   }
 
@@ -205,6 +232,11 @@ test('reduced motion preference removes nonessential transitions', async ({ page
     Number.parseFloat(getComputedStyle(element).transitionDuration),
   );
   expect(duration).toBeLessThanOrEqual(0.001);
+
+  const heroDuration = await page.locator('.hero-copy').evaluate((element) =>
+    Number.parseFloat(getComputedStyle(element).animationDuration),
+  );
+  expect(heroDuration).toBeLessThanOrEqual(0.001);
 });
 
 test('stored appearance is applied by the first document render', async ({ page }) => {
@@ -221,7 +253,7 @@ test('primary text, supporting text, and links retain accessible contrast', asyn
 
   for (const theme of ['light', 'dark']) {
     await page.getByLabel('Theme').selectOption(theme);
-    for (const selector of ['body', '.hero-summary', '.text-link']) {
+    for (const selector of ['body', '.lead', '.text-link']) {
       const ratio = await page.locator(selector).first().evaluate((element) => {
         const parseColour = (value: string) =>
           value.match(/[\d.]+/g)?.slice(0, 3).map(Number) ?? [0, 0, 0];

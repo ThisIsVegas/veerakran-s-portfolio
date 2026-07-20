@@ -8,6 +8,8 @@ const experience = [
     title: 'Backend Developer',
     dateRange: 'October 2021 - May 2026',
     location: 'Sri Racha, Chonburi, Thailand',
+    projectHref: withBase('projects/tiny-little-platform/'),
+    projectLabel: 'View related Tiny Little Platform work',
     bullets: [
       'Built backend services and REST APIs for the Tiny Little platform supporting seven commercial games.',
       'Designed backend architecture supporting shared player services across the Tiny Little platform.',
@@ -24,6 +26,8 @@ const experience = [
     title: 'Software Programmer',
     dateRange: 'June 2018 - September 2021',
     location: 'Phaya Thai, Bangkok, Thailand',
+    projectHref: withBase('projects/public-sector-solutions/'),
+    projectLabel: 'View related public-sector work',
     bullets: [
       'Developed enterprise software for private-sector clients, government agencies, and public organizations using C#, ASP.NET MVC, PHP, and Node.js.',
       "Modernized TK Park's workstation, access control, POS, and kiosk systems.",
@@ -83,9 +87,9 @@ const resumePDFHref = withBase('resume.pdf');
   <article class="resume-page">
     <header class="resume-hero">
       <div>
-        <p class="eyebrow">Career overview</p>
-        <h1>Resume</h1>
-        <p class="candidate-name">Veerakran Sereerungruangkul</p>
+        <p class="eyebrow">Résumé / Career overview</p>
+        <h1>Veerakran Sereerungruangkul</h1>
+        <p class="candidate-name">Backend Developer · Platform &amp; Systems Integration</p>
       </div>
       <a class="pdf-link" href={resumePDFHref}>Download PDF</a>
     </header>
@@ -116,6 +120,7 @@ const resumePDFHref = withBase('resume.pdf');
             <ul>
               {job.bullets.map((bullet) => <li>{bullet}</li>)}
             </ul>
+            <a class="related-link" href={job.projectHref}>{job.projectLabel} <span aria-hidden="true">→</span></a>
           </article>
         ))}
       </div>
@@ -180,12 +185,20 @@ const resumePDFHref = withBase('resume.pdf');
 
   .resume-hero h1 {
     margin-top: 0.4rem;
-    font-size: clamp(3rem, 7vw, 5rem);
+    max-width: 48rem;
+    font-size: clamp(2.35rem, 5.7vw, 4.75rem);
   }
 
   .candidate-name {
     margin-top: 0.55rem;
     color: var(--color-muted);
+    font-weight: 650;
+  }
+
+  .related-link {
+    display: inline-block;
+    margin-top: 1.35rem;
+    font-size: 0.86rem;
     font-weight: 650;
   }
 
@@ -382,7 +395,7 @@ const resumePDFHref = withBase('resume.pdf');
     }
 
     .resume-hero h1 {
-      font-size: 28pt;
+      font-size: 25pt;
     }
 
     .summary {
@@ -415,6 +428,10 @@ const resumePDFHref = withBase('resume.pdf');
     .job ul {
       gap: 0.2rem;
       margin-top: 0.6rem;
+    }
+
+    .related-link {
+      display: none;
     }
 
     .capability-group {

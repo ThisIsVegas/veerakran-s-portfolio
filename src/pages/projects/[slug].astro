@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MediaGallery from '../../components/MediaGallery.astro';
+import { projects, type Project } from '../../data/projects';
+import { withBase } from '../../utils/paths';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+interface Props { project: Project }
+const { project } = Astro.props;
+const index = projects.findIndex((item) => item.slug === project.slug);
+const nextProject = projects[(index + 1) % projects.length];
+---
+<BaseLayout title={project.title} description={`${project.summary} Selected work by Veerakran Sereerungruangkul.`}>
+  <article class="project-detail">
+    <a class="back-link" href={withBase('projects/')}><span aria-hidden="true">←</span> Selected projects</a>
+    <header class="project-hero">
+      <p class="eyebrow">{project.domain}</p>
+      <h1>{project.title}</h1>
+      <p class="project-summary">{project.summary}</p>
+      <p class="project-description">{project.description}</p>
+      <div class="project-actions">
+        {project.links?.map((link) => <a href={link.href}>{link.label} <span aria-hidden="true">↗</span></a>)}
+        {project.status && <p class="status"><span aria-hidden="true"></span>{project.status}</p>}
+      </div>
+    </header>
+
+    <MediaGallery media={project.media} />
+
+    <section class="project-context" aria-labelledby="contribution-title">
+      <div><p class="eyebrow">Contribution</p><h2 id="contribution-title">What I worked on</h2></div>
+      <div>
+        <ul>{project.contributions.map((contribution) => <li>{contribution}</li>)}</ul>
+        <aside><h3>{project.scopeLabel}</h3><p>{project.scope}</p></aside>
+      </div>
+    </section>
+
+    {project.products && (
+      <section class="products" aria-labelledby="products-title">
+        <header><p class="eyebrow">Public releases</p><h2 id="products-title">Related products</h2><p>Store artwork is represented by temporary lettermarks until approved assets are available.</p></header>
+        <div class="product-grid">{project.products.map((product) => <article><img src={withBase(product.icon)} alt="" width="96" height="96" loading="lazy" /><div><h3>{product.name}</h3>{product.note && <p>{product.note}</p>}<div class="store-links">{product.links.map((link) => <a href={link.href} aria-label={link.label}>{link.label.includes('Google') ? 'Google Play' : 'App Store'} <span aria-hidden="true">↗</span></a>)}</div></div></article>)}</div>
+      </section>
+    )}
+
+    <a class="next-project" href={withBase(`projects/${nextProject.slug}/`)}><span><small>Next project</small>{nextProject.title}</span><b aria-hidden="true">→</b></a>
+  </article>
+</BaseLayout>
+<style>
+  .project-detail { max-width:68rem; margin-inline:auto; }
+  .back-link { display:inline-flex; gap:.6rem; color:var(--color-muted); font:600 .72rem var(--font-utility); text-decoration:none; text-transform:uppercase; letter-spacing:.07em; }
+  .project-hero { max-width:55rem; padding:clamp(3.5rem,9vw,7rem) 0 clamp(3rem,7vw,5rem); }
+  .eyebrow,.project-context h3,.next-project small { color:var(--color-muted); font:600 .7rem/1.5 var(--font-utility); text-transform:uppercase; letter-spacing:.09em; }
+  .project-hero h1 { margin-top:1rem; font-size:clamp(3rem,8vw,7rem); }
+  .project-summary { max-width:44rem; margin-top:1.5rem; font-size:clamp(1.15rem,1rem + .7vw,1.55rem); }
+  .project-description { max-width:40rem; margin-top:1rem; color:var(--color-muted); }
+  .project-actions { display:flex; flex-wrap:wrap; gap:1rem 1.5rem; align-items:center; margin-top:2rem; }
+  .project-actions a { font-weight:650; }
+  .status { display:flex; gap:.6rem; align-items:center; color:var(--color-muted); font:600 .72rem var(--font-utility); text-transform:uppercase; letter-spacing:.05em; }
+  .status span { width:.5rem; height:.5rem; border:1px solid var(--color-accent); border-radius:50%; }
+  .project-context { display:grid; grid-template-columns:minmax(12rem,.7fr) minmax(0,1.5fr); gap:clamp(2rem,7vw,6rem); margin-top:clamp(5rem,11vw,9rem); padding-top:clamp(2.5rem,5vw,4rem); border-top:1px solid var(--color-accent); }
+  .project-context h2,.products h2 { margin-top:.5rem; }
+  .project-context ul { display:grid; gap:.9rem; margin:0; padding-left:1.2rem; color:var(--color-muted); }
+  .project-context aside { margin-top:2.5rem; padding:1.5rem; background:var(--color-surface); }
+  .project-context aside p { margin-top:.6rem; color:var(--color-muted); }
+  .products { margin-top:clamp(5rem,11vw,9rem); }
+  .products > header { display:grid; grid-template-columns:minmax(12rem,.7fr) minmax(12rem,1fr) minmax(15rem,1fr); gap:2rem; align-items:end; padding-bottom:2rem; border-bottom:1px solid var(--color-border); }
+  .products > header p:last-child { color:var(--color-muted); font-size:.9rem; }
+  .product-grid { display:grid; grid-template-columns:repeat(2,1fr); }
+  .product-grid article { display:grid; grid-template-columns:4.5rem 1fr; gap:1.25rem; padding:2rem; border-bottom:1px solid var(--color-border); }
+  .product-grid article:nth-child(odd) { border-right:1px solid var(--color-border); }
+  .product-grid img { width:4.5rem; height:4.5rem; border-radius:1rem; }
+  .product-grid p { margin-top:.35rem; color:var(--color-muted); font-size:.82rem; }
+  .store-links { display:flex; flex-wrap:wrap; gap:.5rem 1rem; margin-top:.7rem; }
+  .store-links a { font-size:.82rem; }
+  .next-project { display:flex; justify-content:space-between; align-items:center; gap:2rem; margin-top:clamp(5rem,12vw,10rem); padding:2rem 0; color:var(--color-text); border-block:1px solid var(--color-border); font:650 clamp(1.2rem,3vw,2rem) var(--font-heading); text-decoration:none; }
+  .next-project small { display:block; margin-bottom:.4rem; }
+  .next-project b { color:var(--color-accent); font-size:2rem; }
+  @media(max-width:48rem){ .project-context,.products > header { grid-template-columns:1fr; gap:1rem; } .product-grid { grid-template-columns:1fr; } .product-grid article:nth-child(odd){border-right:0;} }
+  @media(max-width:28rem){ .product-grid article { grid-template-columns:3.5rem 1fr; padding:1.5rem 0; } .product-grid img{width:3.5rem;height:3.5rem;border-radius:.8rem;} }
+</style>

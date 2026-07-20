@@ -1,0 +1,42 @@
+---
+import type { ProjectMedia } from '../data/projects';
+import { withBase } from '../utils/paths';
+interface Props { media: ProjectMedia[] }
+const { media } = Astro.props;
+---
+<div class="media-gallery" aria-label="Project media">
+  {media.map((item, index) => (
+    <figure>
+      {item.type === 'image' ? (
+        <img src={withBase(item.src)} alt={item.alt} width="1200" height="720" loading={index ? 'lazy' : 'eager'} decoding="async" />
+      ) : (
+        <video controls playsinline preload="metadata" poster={withBase(item.poster)}>
+          <source src={withBase(item.src)} />
+          Your browser does not support embedded video.
+        </video>
+      )}
+      <figcaption><span>{String(index + 1).padStart(2, '0')}</span>{item.caption}</figcaption>
+      {item.type === 'video' && item.transcript && (
+        <details class="transcript">
+          <summary>Video transcript</summary>
+          <p>{item.transcript}</p>
+        </details>
+      )}
+    </figure>
+  ))}
+</div>
+<style>
+  .media-gallery { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:clamp(1rem,3vw,2rem); }
+  figure { min-width:0; margin:0; }
+  figure:first-child { grid-column:1/-1; }
+  img,video { display:block; width:100%; aspect-ratio:5/3; object-fit:cover; background:var(--color-surface); border:1px solid var(--color-border); }
+  figcaption { display:flex; gap:1rem; margin-top:.7rem; color:var(--color-muted); font:600 .68rem/1.5 var(--font-utility); letter-spacing:.05em; }
+  figcaption span { color:var(--color-accent); }
+  .transcript { margin-top:.8rem; color:var(--color-muted); font-size:.88rem; }
+  .transcript summary { color:var(--color-accent); cursor:pointer; font-weight:650; }
+  .transcript p { margin-top:.6rem; }
+  @media(max-width:40rem){
+    .media-gallery { display:flex; gap:.85rem; margin-inline:calc(-1 * clamp(1.25rem,4vw,2rem)); padding-inline:clamp(1.25rem,4vw,2rem); overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:thin; }
+    figure,figure:first-child { flex:0 0 88%; scroll-snap-align:start; }
+  }
+</style>
