@@ -175,16 +175,24 @@ test('portfolio remains usable without horizontal overflow on mobile', async ({ 
 });
 
 test('theme control and primary navigation work from the keyboard', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 800 });
   await page.goto('/');
 
   const theme = page.getByLabel('Theme');
+  const resumeLink = page.getByRole('link', { name: 'Resume' });
+  const resumePosition = await resumeLink.boundingBox();
+  const themePosition = await theme.boundingBox();
+  expect(resumePosition).not.toBeNull();
+  expect(themePosition).not.toBeNull();
+  expect(themePosition!.y + themePosition!.height).toBeGreaterThanOrEqual(resumePosition!.y);
+
   await theme.focus();
   await page.keyboard.press('ArrowDown');
   await expect(theme).toHaveValue('light');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   await expect(theme).toHaveCSS('outline-style', 'solid');
 
-  await page.getByRole('link', { name: 'Resume' }).focus();
+  await resumeLink.focus();
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(/\/resume\/?$/);
 });
