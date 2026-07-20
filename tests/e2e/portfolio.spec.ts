@@ -60,7 +60,10 @@ test('project records support rich media and verified public destinations', asyn
   await page.goto('/projects/tiny-little-platform/');
 
   await expect(page.getByRole('heading', { level: 1, name: 'Tiny Little Platform' })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Projects' })).toHaveAttribute('aria-current', 'page');
+  await expect(page.getByRole('link', { name: 'Projects', exact: true })).toHaveAttribute(
+    'aria-current',
+    'page',
+  );
   await expect(page.getByRole('link', { name: 'Visit Tiny Little' })).toHaveAttribute(
     'href',
     'https://tinylittle.io/',
@@ -237,6 +240,51 @@ test('reduced motion preference removes nonessential transitions', async ({ page
     Number.parseFloat(getComputedStyle(element).animationDuration),
   );
   expect(heroDuration).toBeLessThanOrEqual(0.001);
+});
+
+test('hero progressively enhances with Three.js while preserving the motion-safe fallback', async ({
+  browser,
+}) => {
+  const enhancedPage = await browser.newPage();
+  await enhancedPage.goto('/');
+  await expect(enhancedPage.locator('.hero canvas')).toBeVisible();
+  await expect(enhancedPage.locator('.hero')).toHaveAttribute('data-three-ready', 'true');
+  await enhancedPage.close();
+
+  const reducedContext = await browser.newContext({ reducedMotion: 'reduce' });
+  const reducedPage = await reducedContext.newPage();
+  await reducedPage.goto('/');
+  await expect(reducedPage.locator('.hero canvas')).toHaveCount(0);
+  await expect(reducedPage.locator('.hero-trace')).toBeVisible();
+  await reducedContext.close();
+});
+
+test('hero keeps the static fallback when the visitor is saving data', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'connection', {
+      configurable: true,
+      value: { saveData: true },
+    });
+  });
+  await page.goto('/');
+
+  await expect(page.locator('.hero canvas')).toHaveCount(0);
+  await expect(page.locator('.hero-trace')).toBeVisible();
+});
+
+test('hero pauses and resumes across back-forward cache lifecycle events', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('.hero')).toHaveAttribute('data-three-ready', 'true');
+
+  await page.evaluate(() =>
+    window.dispatchEvent(new PageTransitionEvent('pagehide', { persisted: true })),
+  );
+  await expect(page.locator('.hero')).not.toHaveAttribute('data-three-ready', 'true');
+
+  await page.evaluate(() =>
+    window.dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true })),
+  );
+  await expect(page.locator('.hero')).toHaveAttribute('data-three-ready', 'true');
 });
 
 test('stored appearance is applied by the first document render', async ({ page }) => {

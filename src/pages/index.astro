@@ -102,6 +102,18 @@ const principles = [
   </div>
 </BaseLayout>
 
+<script>
+  const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && !connection?.saveData) {
+    const loadScene = () => import('../scripts/hero-scene').catch(() => undefined);
+    const requestIdle = (window as unknown as {
+      requestIdleCallback?: (callback: () => void, options: { timeout: number }) => number;
+    }).requestIdleCallback;
+    if (requestIdle) requestIdle(loadScene, { timeout: 1200 });
+    else window.setTimeout(loadScene, 120);
+  }
+</script>
+
 <style>
   .hero { position: relative; display: grid; place-items: center; min-height: calc(100svh - 8rem); overflow:hidden; text-align: center; isolation: isolate; }
   .hero-copy { display: grid; justify-items: center; max-width: 70rem; animation: reveal 800ms cubic-bezier(.2,.7,.2,1) both; }
@@ -110,7 +122,10 @@ const principles = [
   .hero h1 span { display:block; }
   .profession { display:flex; flex-wrap:wrap; justify-content:center; gap:.5rem .85rem; margin-top:clamp(1.75rem,4vw,2.75rem); color:var(--color-muted); font-size:clamp(.88rem,1.4vw,1rem); }
   .profession span { color:var(--color-accent); }
-  .hero-trace { position:absolute; inset:5% 0; z-index:-1; width:100%; height:90%; color:var(--color-accent); opacity:.35; }
+  .hero-trace { position:absolute; inset:5% 0; z-index:-1; width:100%; height:90%; color:var(--color-accent); opacity:.35; transition:opacity 500ms ease; }
+  .hero :global(.hero-canvas) { position:absolute; inset:0; z-index:-1; width:100%; height:100%; opacity:0; pointer-events:none; transition:opacity 700ms ease; }
+  .hero[data-three-ready='true'] :global(.hero-canvas) { opacity:.48; }
+  .hero[data-three-ready='true'] .hero-trace { opacity:0; }
   .hero-trace path { fill:none; stroke:currentColor; stroke-width:1; stroke-dasharray:800; animation:draw 1200ms 160ms ease-out both; }
   .hero-trace circle { fill:var(--color-bg); stroke:currentColor; stroke-width:1.5; }
   .continue-link { position:absolute; bottom:1.5rem; display:flex; gap:.7rem; color:var(--color-muted); font:600 .7rem var(--font-utility); letter-spacing:.08em; text-decoration:none; text-transform:uppercase; }
@@ -141,6 +156,7 @@ const principles = [
     .profession { flex-direction:column; gap:.25rem; }
     .profession span { display:none; }
     .hero-trace { inset:12% -25%; width:150%; height:76%; }
+    .hero[data-three-ready='true'] :global(.hero-canvas) { opacity:.36; }
     .intro-section,.story-section { grid-template-columns:1fr; }
     .intro-section > .section-label,.story-section > .section-label { padding-top:0; }
     .trace-content { margin-top:.85rem; padding:2.5rem 0 5rem; border-top:1px solid var(--color-accent); border-left:0; }
@@ -150,5 +166,5 @@ const principles = [
     .work-list a > span { position:absolute; right:0; }
     .work-list a { position:relative; padding-right:2rem; }
   }
-  @media (prefers-reduced-motion:reduce) { .hero-copy,.hero-trace path { animation:none; } }
+  @media (prefers-reduced-motion:reduce) { .hero-copy,.hero-trace path { animation:none; } .hero-trace { transition:none; } }
 </style>

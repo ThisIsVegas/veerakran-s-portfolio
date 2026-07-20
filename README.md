@@ -27,6 +27,8 @@ The default build targets a root deployment. GitHub Pages supplies `SITE_URL` an
 
 Archivo and Public Sans are self-hosted under the SIL Open Font License. License texts are stored beside the font assets in `public/fonts/`.
 
+The Home hero uses a small Three.js systems scene as a progressive enhancement. Its client bundle is loaded during browser idle time, omitted for reduced-motion and data-saving preferences, and kept out of every other route. The static SVG trace remains the no-WebGL fallback. `npm run build` also enforces a dedicated size budget for the isolated hero chunk.
+
 ## Project imagery
 
 Project visuals live in `public/images/projects/`. The current SVG covers, gallery frames, and app lettermarks are conceptual placeholders and are labelled as such on the site. Replace them only with public or permission-cleared material, and update the matching record in `src/data/projects.ts`.
