@@ -186,7 +186,7 @@ const resumePDFHref = withBase('resume.pdf');
   .resume-hero h1 {
     margin-top: 0.4rem;
     max-width: 48rem;
-    font-size: clamp(2.35rem, 5.7vw, 4.75rem);
+    font-size: var(--text-resume-title);
   }
 
   .candidate-name {
@@ -198,7 +198,7 @@ const resumePDFHref = withBase('resume.pdf');
   .related-link {
     display: inline-block;
     margin-top: 1.35rem;
-    font-size: 0.86rem;
+    font-size: var(--text-supporting);
     font-weight: 650;
   }
 
@@ -207,7 +207,7 @@ const resumePDFHref = withBase('resume.pdf');
   .location {
     color: var(--color-muted);
     font-family: var(--font-utility);
-    font-size: 0.7rem;
+    font-size: var(--text-label);
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -216,7 +216,7 @@ const resumePDFHref = withBase('resume.pdf');
   .pdf-link {
     flex: none;
     padding-bottom: 0.3rem;
-    font-size: 0.9rem;
+    font-size: var(--text-supporting);
     font-weight: 650;
   }
 
@@ -224,7 +224,7 @@ const resumePDFHref = withBase('resume.pdf');
     max-width: 47rem;
     margin: 2rem 0 clamp(4rem, 8vw, 6rem);
     color: var(--color-muted);
-    font-size: clamp(1.05rem, 1rem + 0.25vw, 1.2rem);
+    font-size: var(--text-lead);
   }
 
   .resume-section {

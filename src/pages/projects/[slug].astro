@@ -48,15 +48,15 @@ const nextProject = projects[(index + 1) % projects.length];
 </BaseLayout>
 <style>
   .project-detail { max-width:68rem; margin-inline:auto; }
-  .back-link { display:inline-flex; gap:.6rem; color:var(--color-muted); font:600 .72rem var(--font-utility); text-decoration:none; text-transform:uppercase; letter-spacing:.07em; }
+  .back-link { display:inline-flex; gap:.6rem; color:var(--color-muted); font:600 var(--text-label) var(--font-utility); text-decoration:none; text-transform:uppercase; letter-spacing:.07em; }
   .project-hero { max-width:55rem; padding:clamp(3.5rem,9vw,7rem) 0 clamp(3rem,7vw,5rem); }
-  .eyebrow,.project-context h3,.next-project small { color:var(--color-muted); font:600 .7rem/1.5 var(--font-utility); text-transform:uppercase; letter-spacing:.09em; }
-  .project-hero h1 { margin-top:1rem; font-size:clamp(3rem,8vw,7rem); }
-  .project-summary { max-width:44rem; margin-top:1.5rem; font-size:clamp(1.15rem,1rem + .7vw,1.55rem); }
+  .eyebrow,.project-context h3,.next-project small { color:var(--color-muted); font:600 var(--text-label)/1.5 var(--font-utility); text-transform:uppercase; letter-spacing:.09em; }
+  .project-hero h1 { margin-top:1rem; font-size:var(--text-project-title); }
+  .project-summary { max-width:44rem; margin-top:1.5rem; font-size:var(--text-lead); }
   .project-description { max-width:40rem; margin-top:1rem; color:var(--color-muted); }
   .project-actions { display:flex; flex-wrap:wrap; gap:1rem 1.5rem; align-items:center; margin-top:2rem; }
   .project-actions a { font-weight:650; }
-  .status { display:flex; gap:.6rem; align-items:center; color:var(--color-muted); font:600 .72rem var(--font-utility); text-transform:uppercase; letter-spacing:.05em; }
+  .status { display:flex; gap:.6rem; align-items:center; color:var(--color-muted); font:600 var(--text-label) var(--font-utility); text-transform:uppercase; letter-spacing:.05em; }
   .status span { width:.5rem; height:.5rem; border:1px solid var(--color-accent); border-radius:50%; }
   .project-context { display:grid; grid-template-columns:minmax(12rem,.7fr) minmax(0,1.5fr); gap:clamp(2rem,7vw,6rem); margin-top:clamp(5rem,11vw,9rem); padding-top:clamp(2.5rem,5vw,4rem); border-top:1px solid var(--color-accent); }
   .project-context h2,.products h2 { margin-top:.5rem; }
@@ -65,14 +65,14 @@ const nextProject = projects[(index + 1) % projects.length];
   .project-context aside p { margin-top:.6rem; color:var(--color-muted); }
   .products { margin-top:clamp(5rem,11vw,9rem); }
   .products > header { display:grid; grid-template-columns:minmax(12rem,.7fr) minmax(12rem,1fr) minmax(15rem,1fr); gap:2rem; align-items:end; padding-bottom:2rem; border-bottom:1px solid var(--color-border); }
-  .products > header p:last-child { color:var(--color-muted); font-size:.9rem; }
+  .products > header p:last-child { color:var(--color-muted); font-size:var(--text-supporting); }
   .product-grid { display:grid; grid-template-columns:repeat(2,1fr); }
   .product-grid article { display:grid; grid-template-columns:4.5rem 1fr; gap:1.25rem; padding:2rem; border-bottom:1px solid var(--color-border); }
   .product-grid article:nth-child(odd) { border-right:1px solid var(--color-border); }
   .product-grid img { width:4.5rem; height:4.5rem; border-radius:1rem; }
-  .product-grid p { margin-top:.35rem; color:var(--color-muted); font-size:.82rem; }
+  .product-grid p { margin-top:.35rem; color:var(--color-muted); font-size:var(--text-supporting); }
   .store-links { display:flex; flex-wrap:wrap; gap:.5rem 1rem; margin-top:.7rem; }
-  .store-links a { font-size:.82rem; }
+  .store-links a { font-size:var(--text-supporting); }
   .next-project { display:flex; justify-content:space-between; align-items:center; gap:2rem; margin-top:clamp(5rem,12vw,10rem); padding:2rem 0; color:var(--color-text); border-block:1px solid var(--color-border); font:650 clamp(1.2rem,3vw,2rem) var(--font-heading); text-decoration:none; }
   .next-project small { display:block; margin-bottom:.4rem; }
   .next-project b { color:var(--color-accent); font-size:2rem; }

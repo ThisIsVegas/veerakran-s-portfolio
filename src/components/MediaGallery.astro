@@ -30,9 +30,9 @@ const { media } = Astro.props;
   figure { min-width:0; margin:0; }
   figure:first-child { grid-column:1/-1; }
   img,video { display:block; width:100%; aspect-ratio:5/3; object-fit:cover; background:var(--color-surface); border:1px solid var(--color-border); }
-  figcaption { display:flex; gap:1rem; margin-top:.7rem; color:var(--color-muted); font:600 .68rem/1.5 var(--font-utility); letter-spacing:.05em; }
+  figcaption { display:flex; gap:1rem; margin-top:.7rem; color:var(--color-muted); font:600 var(--text-label)/1.5 var(--font-utility); letter-spacing:.05em; }
   figcaption span { color:var(--color-accent); }
-  .transcript { margin-top:.8rem; color:var(--color-muted); font-size:.88rem; }
+  .transcript { margin-top:.8rem; color:var(--color-muted); font-size:var(--text-supporting); }
   .transcript summary { color:var(--color-accent); cursor:pointer; font-weight:650; }
   .transcript p { margin-top:.6rem; }
   @media(max-width:40rem){

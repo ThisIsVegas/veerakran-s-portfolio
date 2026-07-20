@@ -117,8 +117,8 @@ const principles = [
 <style>
   .hero { position: relative; display: grid; place-items: center; min-height: calc(100svh - 8rem); overflow:hidden; text-align: center; isolation: isolate; }
   .hero-copy { display: grid; justify-items: center; max-width: 70rem; animation: reveal 800ms cubic-bezier(.2,.7,.2,1) both; }
-  .hero-kicker,.section-label,.period,.project-domain { color:var(--color-muted); font:600 .7rem/1.5 var(--font-utility); letter-spacing:.09em; text-transform:uppercase; }
-  .hero h1 { max-width: 100%; margin-top: 1.25rem; font-size:clamp(2.8rem,8.5vw,7.5rem); line-height:.94; letter-spacing:-.055em; overflow-wrap:normal; }
+  .hero-kicker,.section-label,.period,.project-domain { color:var(--color-muted); font:600 var(--text-label)/1.5 var(--font-utility); letter-spacing:.09em; text-transform:uppercase; }
+  .hero h1 { max-width: 100%; margin-top: 1.25rem; font-size:var(--text-hero); line-height:.94; letter-spacing:-.055em; overflow-wrap:normal; }
   .hero h1 span { display:block; }
   .profession { display:flex; flex-wrap:wrap; justify-content:center; gap:.5rem .85rem; margin-top:clamp(1.75rem,4vw,2.75rem); color:var(--color-muted); font-size:clamp(.88rem,1.4vw,1rem); }
   .profession span { color:var(--color-accent); }
@@ -128,14 +128,14 @@ const principles = [
   .hero[data-three-ready='true'] .hero-trace { opacity:0; }
   .hero-trace path { fill:none; stroke:currentColor; stroke-width:1; stroke-dasharray:800; animation:draw 1200ms 160ms ease-out both; }
   .hero-trace circle { fill:var(--color-bg); stroke:currentColor; stroke-width:1.5; }
-  .continue-link { position:absolute; bottom:1.5rem; display:flex; gap:.7rem; color:var(--color-muted); font:600 .7rem var(--font-utility); letter-spacing:.08em; text-decoration:none; text-transform:uppercase; }
+  .continue-link { position:absolute; bottom:1.5rem; display:flex; gap:.7rem; color:var(--color-muted); font:600 var(--text-label) var(--font-utility); letter-spacing:.08em; text-decoration:none; text-transform:uppercase; }
   .story { scroll-margin-top:2rem; }
   .intro-section,.story-section { display:grid; grid-template-columns:minmax(9rem,12rem) minmax(0,1fr); column-gap:clamp(2rem,6vw,5rem); }
   .intro-section > .section-label,.story-section > .section-label { padding-top:clamp(3.35rem,7vw,5.85rem); }
   .trace-content { position:relative; min-width:0; padding:clamp(3rem,7vw,5.5rem) 0 clamp(4.5rem,10vw,8rem) clamp(1.75rem,4vw,3.5rem); border-left:1px solid var(--color-accent); }
   .trace-content::before { content:""; position:absolute; top:clamp(3.55rem,7vw,6.05rem); left:-.3rem; width:.55rem; height:.55rem; background:var(--color-bg); border:1px solid var(--color-accent); border-radius:50%; }
-  .intro-section h2 { max-width:48rem; font-size:clamp(2.25rem,5vw,4.4rem); }
-  .lead,.section-intro { max-width:42rem; margin-top:1.5rem; color:var(--color-muted); font-size:clamp(1.04rem,1rem + .3vw,1.22rem); }
+  .intro-section h2 { max-width:48rem; font-size:var(--text-narrative); }
+  .lead,.section-intro { max-width:42rem; margin-top:1.5rem; color:var(--color-muted); font-size:var(--text-lead); }
   .process-list { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; margin:3rem 0 0; padding:1px; background:var(--color-border); list-style:none; }
   .process-list li { padding:clamp(1.25rem,3vw,2rem); background:var(--color-bg); }
   .process-list p,.career-list p,.work-list p,.principle-list { margin-top:.65rem; color:var(--color-muted); }

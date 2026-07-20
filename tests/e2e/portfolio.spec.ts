@@ -322,3 +322,35 @@ test('primary text, supporting text, and links retain accessible contrast', asyn
     }
   }
 });
+
+test('typography keeps the hero as the only oversized text and preserves readable minimums', async ({
+  page,
+}) => {
+  const fontSize = (selector: string) =>
+    page.locator(selector).first().evaluate((element) => Number.parseFloat(getComputedStyle(element).fontSize));
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  expect(await fontSize('.hero h1')).toBeGreaterThan(80);
+  expect(await fontSize('.intro-section h2')).toBeLessThanOrEqual(52);
+  expect(await fontSize('.lead')).toBeGreaterThanOrEqual(16);
+  expect(await fontSize('.section-label')).toBeGreaterThanOrEqual(12.5);
+
+  await page.goto('/projects/');
+  expect(await fontSize('.projects-hero h1')).toBeLessThanOrEqual(60);
+  expect(await fontSize('.project-number')).toBeGreaterThanOrEqual(12.5);
+
+  await page.goto('/projects/tiny-little-platform/');
+  expect(await fontSize('.project-hero h1')).toBeLessThanOrEqual(64);
+  expect(await fontSize('.eyebrow')).toBeGreaterThanOrEqual(12.5);
+  expect(await fontSize('.store-links a')).toBeGreaterThanOrEqual(14);
+  expect(await fontSize('.store-links a')).toBeLessThanOrEqual(14.5);
+
+  await page.goto('/resume');
+  expect(await fontSize('.resume-hero h1')).toBeLessThanOrEqual(56);
+  expect(await fontSize('.summary')).toBeGreaterThanOrEqual(16);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/projects/tiny-little-platform/');
+  expect(await fontSize('.project-hero h1')).toBeLessThanOrEqual(48);
+});

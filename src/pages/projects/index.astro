@@ -28,14 +28,15 @@ import { withBase } from '../../utils/paths';
   </div>
 </BaseLayout>
 <style>
-  .projects-hero { display:grid; grid-template-columns:minmax(9rem,12rem) minmax(0,1.5fr) minmax(15rem,.8fr); gap:clamp(2rem,5vw,4rem); align-items:start; padding-bottom:clamp(5rem,10vw,8rem); }
-  .eyebrow,.project-index>p,.project-number,figcaption { color:var(--color-muted); font:600 .7rem/1.5 var(--font-utility); letter-spacing:.08em; text-transform:uppercase; }
-  .projects-hero h1 { font-size:clamp(3rem,7vw,6rem); }
+  .projects-hero { display:grid; grid-template-columns:minmax(11rem,13rem) minmax(0,1.5fr) minmax(15rem,.8fr); gap:clamp(2rem,5vw,4rem); align-items:start; padding-bottom:clamp(5rem,10vw,8rem); }
+  .projects-hero>.eyebrow { white-space:nowrap; }
+  .eyebrow,.project-index>p,.project-number,figcaption { color:var(--color-muted); font:600 var(--text-label)/1.5 var(--font-utility); letter-spacing:.08em; text-transform:uppercase; }
+  .projects-hero h1 { font-size:var(--text-page); }
   .projects-hero>p:last-child { color:var(--color-muted); }
   .projects-layout { display:grid; grid-template-columns:minmax(10rem,14rem) minmax(0,1fr); gap:clamp(2rem,6vw,5rem); }
   .project-index { position:sticky; top:2rem; align-self:start; }
   .project-index ol { display:grid; gap:.25rem; margin:1rem 0 0; padding:0; list-style:none; }
-  .project-index a { display:grid; grid-template-columns:2rem 1fr; gap:.4rem; padding:.55rem 0; color:var(--color-muted); font-size:.78rem; line-height:1.4; text-decoration:none; }
+  .project-index a { display:grid; grid-template-columns:2rem 1fr; gap:.4rem; padding:.55rem 0; color:var(--color-muted); font-size:var(--text-supporting); line-height:1.4; text-decoration:none; }
   .project-index a span { color:var(--color-accent); font-family:var(--font-utility); }
   .project-index a:hover { color:var(--color-text); }
   .project-record { scroll-margin-top:2rem; padding-bottom:clamp(5rem,11vw,9rem); }
