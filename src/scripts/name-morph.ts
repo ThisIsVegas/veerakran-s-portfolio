@@ -1,47 +1,49 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-const hero = document.querySelector<HTMLElement>('.hero');
-const heroTitle = document.querySelector<HTMLElement>('#home-title');
-const siteIdentity = document.querySelector<HTMLElement>('.site-identity');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-if (hero && heroTitle && siteIdentity) {
-  if (reduceMotion.matches) {
-    gsap.set(siteIdentity, { opacity: 1, y: 0 });
-  } else {
-    gsap.registerPlugin(ScrollTrigger);
+let activeTrigger: ScrollTrigger | undefined;
+let activeMotionListener: (() => void) | undefined;
 
-    const trigger = ScrollTrigger.create({
-      trigger: hero,
-      start: 'top top',
-      end: 'bottom top',
-      scrub: 0.3,
-      onUpdate: (self) => {
-        gsap.set(heroTitle, { opacity: 1 - self.progress, scale: 1 - self.progress * 0.12 });
-        gsap.set(siteIdentity, { opacity: self.progress, y: (1 - self.progress) * -0.4 * 16 });
-      },
-    });
+export function initNameMorph() {
+  activeTrigger?.kill();
+  if (activeMotionListener) reduceMotion.removeEventListener('change', activeMotionListener);
+  activeTrigger = undefined;
+  activeMotionListener = undefined;
 
-    const handleMotionPreference = () => {
-      if (reduceMotion.matches) {
-        trigger.kill();
-        gsap.set(heroTitle, { clearProps: 'opacity,scale' });
-        gsap.set(siteIdentity, { opacity: 1, y: 0 });
-      }
-    };
+  const hero = document.querySelector<HTMLElement>('.hero');
+  const heroTitle = document.querySelector<HTMLElement>('#home-title');
 
-    reduceMotion.addEventListener('change', handleMotionPreference);
+  if (!hero || !heroTitle || reduceMotion.matches) return;
 
-    window.addEventListener(
-      'pagehide',
-      (event) => {
-        if (!event.persisted) {
-          reduceMotion.removeEventListener('change', handleMotionPreference);
-          trigger.kill();
-        }
-      },
-      { once: true },
-    );
-  }
+  gsap.registerPlugin(ScrollTrigger);
+
+  const trigger = ScrollTrigger.create({
+    trigger: hero,
+    start: 'top top',
+    end: 'bottom top',
+    scrub: 0.3,
+    onUpdate: (self) => {
+      gsap.set(heroTitle, { opacity: 1 - self.progress, scale: 1 - self.progress * 0.12 });
+    },
+  });
+  activeTrigger = trigger;
+
+  const handleMotionPreference = () => {
+    if (reduceMotion.matches) {
+      trigger.kill();
+      gsap.set(heroTitle, { clearProps: 'opacity,scale' });
+    }
+  };
+  activeMotionListener = handleMotionPreference;
+
+  reduceMotion.addEventListener('change', handleMotionPreference);
 }
+
+document.addEventListener('astro:before-swap', () => {
+  activeTrigger?.kill();
+  if (activeMotionListener) reduceMotion.removeEventListener('change', activeMotionListener);
+  activeTrigger = undefined;
+  activeMotionListener = undefined;
+});
