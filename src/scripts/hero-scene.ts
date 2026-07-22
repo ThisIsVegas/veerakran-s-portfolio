@@ -14,11 +14,6 @@ import {
   WebGLRenderer,
 } from 'three';
 
-const hero = document.querySelector<HTMLElement>('.hero');
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-const narrowViewport = window.matchMedia('(max-width: 45rem)');
-const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
-
 type NodeRole = 'endpoint' | 'service' | 'hub';
 type SystemNode = { position: [number, number, number]; role: NodeRole };
 type SystemTopology = { nodes: SystemNode[]; connections: Array<[number, number]> };
@@ -72,7 +67,15 @@ const mobileTopology: SystemTopology = {
   connections: [[0, 1], [1, 2], [2, 3], [2, 4], [4, 5], [6, 7], [7, 8], [8, 9], [8, 10], [10, 11]],
 };
 
-if (hero && !reduceMotion.matches && !connection?.saveData) {
+export function initHeroScene() {
+  const hero = document.querySelector<HTMLElement>('.hero');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const narrowViewport = window.matchMedia('(max-width: 45rem)');
+  const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+
+  if (!hero || hero.dataset.heroSceneBound === 'true' || reduceMotion.matches || connection?.saveData) return;
+  hero.dataset.heroSceneBound = 'true';
+
   const canvas = document.createElement('canvas');
   canvas.className = 'hero-canvas';
   canvas.setAttribute('aria-hidden', 'true');
@@ -243,6 +246,7 @@ if (hero && !reduceMotion.matches && !connection?.saveData) {
       document.removeEventListener('visibilitychange', handleVisibility);
       window.removeEventListener('pagehide', handlePageHide);
       window.removeEventListener('pageshow', handlePageShow);
+      document.removeEventListener('astro:before-swap', cleanup);
       nodeGeometry.dispose();
       Object.values(nodeMaterials).forEach((material) => material.dispose());
       lineGeometry.dispose();
@@ -250,6 +254,7 @@ if (hero && !reduceMotion.matches && !connection?.saveData) {
       renderer.dispose();
       canvas.remove();
       delete hero.dataset.threeReady;
+      delete hero.dataset.heroSceneBound;
     };
 
     const handlePageHide = (event: PageTransitionEvent) => {
@@ -276,8 +281,10 @@ if (hero && !reduceMotion.matches && !connection?.saveData) {
     document.addEventListener('visibilitychange', handleVisibility);
     window.addEventListener('pagehide', handlePageHide);
     window.addEventListener('pageshow', handlePageShow);
+    document.addEventListener('astro:before-swap', cleanup, { once: true });
     updateAnimation();
   } catch {
     canvas.remove();
+    delete hero.dataset.heroSceneBound;
   }
 }
