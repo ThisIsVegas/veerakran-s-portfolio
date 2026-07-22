@@ -38,7 +38,7 @@
   --text-page: clamp(2.5rem, 2rem + 2.5vw, 3.75rem);
   --text-project-title: clamp(2.5rem, 2rem + 3vw, 4rem);
   --text-resume-title: clamp(2.25rem, 1.9rem + 2.4vw, 3.5rem);
-  --text-hero: clamp(2.8rem, 8.5vw, 7.5rem);
+  --text-hero: clamp(2.6rem, 6.4vw, 5.5rem);
 
   --site-width: 72rem;
   --reading-width: 44rem;
