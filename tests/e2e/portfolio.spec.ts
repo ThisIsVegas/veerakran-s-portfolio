@@ -40,18 +40,31 @@ test('visitor can review selected projects', async ({ page }) => {
   await expect(page).toHaveURL(/\/projects\/?$/);
   await expect(projectsLink).toHaveAttribute('aria-current', 'page');
   await expect(page.getByRole('heading', { level: 1, name: 'Selected projects' })).toBeVisible();
-  await expect(page.getByRole('heading', { level: 2, name: 'Tiny Little Platform' })).toBeVisible();
-  await expect(page.getByRole('heading', { level: 2, name: 'RentPilot' })).toBeVisible();
-  await expect(page.getByRole('heading', { level: 2, name: 'WeLearn Pro' })).toBeVisible();
   await expect(
-    page.getByRole('heading', { level: 2, name: 'Government & Public Sector Solutions' }),
+    page.getByRole('heading', { level: 2, name: 'Public case studies', exact: true }),
   ).toBeVisible();
-  await expect(page.getByRole('link', { name: /Explore Tiny Little Platform/ })).toHaveAttribute(
+  await expect(
+    page.getByRole('heading', { level: 2, name: 'Professional project experience' }),
+  ).toBeVisible();
+  await expect(page.getByRole('heading', { level: 3, name: 'Tiny Little Platform' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 3, name: 'RentPilot' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 3, name: 'WeLearn Pro' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 3, name: 'Public-sector information systems' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 3, name: 'Hardware-integrated Windows software' })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { level: 3, name: 'Enterprise software and systems integration' }),
+  ).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Tiny Little Platform', exact: true })).toHaveAttribute(
     'href',
     '/projects/tiny-little-platform/',
   );
-  await expect(page.locator('figure.project-visual')).toHaveCount(4);
-  await expect(page.getByText('Concept image · Replace with approved project material.')).toHaveCount(4);
+  await expect(page.getByRole('link', { name: /Professional project experience/ })).toHaveAttribute(
+    'href',
+    '#professional-project-experience',
+  );
+  await expect(page.locator('article.project-record')).toHaveCount(3);
+  await expect(page.locator('article.workstream')).toHaveCount(3);
+  await expect(page.getByText(/TK Park|Central Institute|Public Debt Management Office/)).toHaveCount(0);
   await expect(page.getByText('Photon Realtime', { exact: true })).toHaveCount(0);
   await expect(page.getByText('Electron', { exact: true })).toHaveCount(0);
 });
@@ -72,7 +85,7 @@ test('project records support rich media and verified public destinations', asyn
   await expect(page.getByText('Tiny Little Royale', { exact: true })).toBeVisible();
   await expect(page.getByText('Tiny Little Deva', { exact: true })).toBeVisible();
   await expect(page.getByText('Devares', { exact: true })).toBeVisible();
-  await expect(page.locator('.media-gallery figure')).toHaveCount(3);
+  await expect(page.locator('.media-gallery figure')).toHaveCount(11);
   await expect(page.getByRole('link', { name: /Tiny Little Royale on Google Play/ })).toHaveAttribute(
     'href',
     'https://play.google.com/store/apps/details?id=com.hengtech.tinylittleroyale',
@@ -161,6 +174,7 @@ test('resume keeps detailed chronology and supporting capabilities', async ({ pa
   await expect(page.getByRole('heading', { level: 3, name: 'Platform integration' })).toBeVisible();
   await expect(page.getByRole('heading', { level: 2, name: 'Languages' })).toBeVisible();
   await expect(page.getByText('Veerakran Sereerungruangkul', { exact: true })).toBeVisible();
+  await expect(page.getByText(/TK Park|Central Institute|Public Debt Management Office/)).toHaveCount(0);
 });
 
 test('printed resume removes website controls', async ({ page }) => {
@@ -334,7 +348,7 @@ test('typography keeps the hero as the only oversized text and preserves readabl
   expect(await fontSize('.hero h1')).toBeGreaterThan(80);
   expect(await fontSize('.intro-section h2')).toBeLessThanOrEqual(52);
   expect(await fontSize('.lead')).toBeGreaterThanOrEqual(16);
-  expect(await fontSize('.section-label')).toBeGreaterThanOrEqual(12.5);
+  expect(await fontSize('.hero .kicker')).toBeGreaterThanOrEqual(12.5);
 
   await page.goto('/projects/');
   expect(await fontSize('.projects-hero h1')).toBeLessThanOrEqual(60);
@@ -342,7 +356,7 @@ test('typography keeps the hero as the only oversized text and preserves readabl
 
   await page.goto('/projects/tiny-little-platform/');
   expect(await fontSize('.project-hero h1')).toBeLessThanOrEqual(64);
-  expect(await fontSize('.eyebrow')).toBeGreaterThanOrEqual(12.5);
+  expect(await fontSize('.project-hero .kicker')).toBeGreaterThanOrEqual(12.5);
   expect(await fontSize('.store-links a')).toBeGreaterThanOrEqual(14);
   expect(await fontSize('.store-links a')).toBeLessThanOrEqual(14.5);
 

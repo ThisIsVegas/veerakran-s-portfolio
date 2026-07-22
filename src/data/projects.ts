@@ -82,15 +82,50 @@ export const projects: Project[] = [
     links: [{ label: 'Visit WeLearn Pro', href: 'https://welearnpro.com/' }],
     media: [{ type: 'image', src: 'images/projects/screenshots/welearnpro/welearnpro1.webp', alt: 'WeLearn Pro marketing page showing the certificate editor feature.', caption: 'Certificate editor feature' }],
   },
-  {
-    slug: 'public-sector-solutions', domain: 'Public sector', title: 'Government & Public Sector Solutions',
-    summary: 'Enterprise solutions for government agencies and public-sector organisations.',
-    description: 'Representative work across internal workflows, public-facing services, access systems, kiosks, and specialised hardware integrations.',
-    cover: 'images/projects/public-sector.svg', coverAlt: 'Conceptual placeholder showing service terminals and access devices connected to a central workflow.',
-    contributions: ["Modernised TK Park's workstation management, RFID access control, POS integration, and kiosk systems.", 'Developed internal workflow systems and backend integrations for the Central Institute of Forensic Science and the Public Debt Management Office.', 'Developed public-facing applications including U-NAI for missing persons and unidentified bodies.'],
-    scopeLabel: 'Public context', scope: 'Client work for government agencies and public-sector organisations.',
-    media: [{ type: 'image', src: 'images/projects/public-sector.svg', alt: 'Conceptual view of public service terminals and integrated devices.', caption: 'Connected service workflow · Placeholder artwork' }],
-  },
 ];
 
 export const getProject = (slug: string) => projects.find((project) => project.slug === slug);
+
+export interface ProfessionalWorkstream {
+  title: string;
+  summary: string;
+  systems: string[];
+}
+
+export const professionalExperience: ProfessionalWorkstream[] = [
+  {
+    title: 'Public-sector information systems',
+    summary: 'Developed backend and frontend systems for internal workflows, public-facing services, and integrations across government and public-sector projects.',
+    systems: [
+      'Internal workflow systems',
+      'Public-facing applications',
+      'Backend integrations',
+      'SQL Server',
+      'Oracle Database',
+    ],
+  },
+  {
+    title: 'Hardware-integrated Windows software',
+    summary: 'Developed Windows applications that connected physical devices and identity systems with client workflows.',
+    systems: [
+      'C#',
+      'Thai Citizen ID readers',
+      'RFID',
+      'Barcode scanners',
+      'Digital signature pads',
+      'Touch-screen kiosks',
+      'POS',
+    ],
+  },
+  {
+    title: 'Enterprise software and systems integration',
+    summary: 'Developed client-specific enterprise software spanning chatbots, database-backed applications, and integrations between existing systems.',
+    systems: [
+      'LINE Messaging API',
+      'Node.js',
+      'PHP',
+      'SQL Server',
+      'Oracle Database',
+    ],
+  },
+];
