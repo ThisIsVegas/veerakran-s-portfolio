@@ -10,10 +10,12 @@ const { media } = Astro.props;
       {item.type === 'image' ? (
         <img src={withBase(item.src)} alt={item.alt} width="1200" height="720" loading={index ? 'lazy' : 'eager'} decoding="async" />
       ) : (
-        <video controls playsinline preload="metadata" poster={withBase(item.poster)}>
-          <source src={withBase(item.src)} />
-          Your browser does not support embedded video.
-        </video>
+        <>
+          <video class="bg-video" autoplay muted loop playsinline preload="metadata" poster={withBase(item.poster)}>
+            <source src={withBase(item.src)} />
+          </video>
+          <img class="reduced-motion-fallback" src={withBase(item.poster)} alt={item.caption} width="1200" height="720" loading="lazy" decoding="async" />
+        </>
       )}
       <figcaption><span>{String(index + 1).padStart(2, '0')}</span>{item.caption}</figcaption>
       {item.type === 'video' && item.transcript && (
@@ -30,6 +32,11 @@ const { media } = Astro.props;
   figure { min-width:0; margin:0; }
   figure:first-child { grid-column:1/-1; }
   img,video { display:block; width:100%; aspect-ratio:5/3; object-fit:cover; background:var(--color-surface); border:1px solid var(--color-border); }
+  .reduced-motion-fallback { display:none; }
+  @media (prefers-reduced-motion: reduce) {
+    .bg-video { display:none; }
+    .reduced-motion-fallback { display:block; }
+  }
   figcaption { display:flex; gap:1rem; margin-top:.7rem; color:var(--color-muted); font:600 var(--text-label)/1.5 var(--font-utility); letter-spacing:.05em; }
   figcaption span { color:var(--color-accent); }
   .transcript { margin-top:.8rem; color:var(--color-muted); font-size:var(--text-supporting); }

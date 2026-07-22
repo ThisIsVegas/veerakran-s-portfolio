@@ -17,17 +17,6 @@ const isHomepage = withoutBase(Astro.url.pathname) === '/';
   </div>
 </header>
 
-<script>
-  const header = document.querySelector('header');
-  if (header) {
-    const updateScrolled = () => {
-      header.dataset.scrolled = window.scrollY > 0 ? 'true' : 'false';
-    };
-    updateScrolled();
-    window.addEventListener('scroll', updateScrolled, { passive: true });
-  }
-</script>
-
 <style>
   header {
     position: fixed;
@@ -35,9 +24,8 @@ const isHomepage = withoutBase(Astro.url.pathname) === '/';
     left: 0;
     right: 0;
     z-index: 50;
-    border-bottom: 1px solid transparent;
-    background: transparent;
-    transition: background-color 200ms ease, border-color 200ms ease;
+    backdrop-filter: blur(0.5rem);
+    -webkit-backdrop-filter: blur(0.5rem);
   }
 
   :global(:root) {
@@ -48,11 +36,6 @@ const isHomepage = withoutBase(Astro.url.pathname) === '/';
     :global(:root) {
       --header-height: 7rem;
     }
-  }
-
-  header[data-scrolled='true'] {
-    border-bottom-color: var(--color-border);
-    background: var(--color-bg);
   }
 
   header:not([data-homepage='true']) .site-identity {

@@ -10,90 +10,59 @@ import { withBase } from '../../utils/paths';
     <p>A concise record of production work across backend platforms, enterprise systems, and desktop software. Confidential implementation details remain out of scope.</p>
   </header>
 
-  <div class="projects-layout">
-    <nav class="project-index" aria-label="Project index" data-project-index>
-      <p>Index</p>
-      <ol>{projects.map((project, index) => <li><a href={`#${project.slug}`} data-index-link={project.slug}><span>{String(index + 1).padStart(2, '0')}</span>{project.title}</a></li>)}</ol>
-    </nav>
-    <div class="project-list">
-      {projects.map((project, index) => (
-        <section id={project.slug} class="project-record" aria-labelledby={`${project.slug}-title`}>
-          <a class="project-card" href={withBase(`projects/${project.slug}/`)} aria-label={`Explore ${project.title}`}>
-            <figure class="project-visual"><img src={withBase(project.cover)} alt={project.coverAlt} width="1200" height="720" loading={index ? 'lazy' : 'eager'} decoding="async" /><figcaption>Concept image · Replace with approved project material.</figcaption></figure>
-            <div class="project-copy"><div><p class="project-number">{String(index + 1).padStart(2, '0')} / {project.domain}</p><h2 id={`${project.slug}-title`}>{project.title}</h2></div><p>{project.summary}</p><span class="arrow" aria-hidden="true">↗</span></div>
+  <div class="project-list">
+    {projects.map((project, index) => {
+      const featured = project.media.find((item) => item.type === 'video') ?? project.media[0];
+      return (
+        <section class="project-record" aria-labelledby={`${project.slug}-title`}>
+          <div class="project-copy">
+            <p class="project-number">{String(index + 1).padStart(2, '0')} / {project.domain}</p>
+            <h2 id={`${project.slug}-title`}><a href={withBase(`projects/${project.slug}/`)}>{project.title}</a></h2>
+            <p>{project.summary}</p>
+            <div class="project-actions">
+              {project.links?.map((link) => <a class="text-link" href={link.href}>{link.label} <span aria-hidden="true">↗</span></a>)}
+              {project.demoSoon && <span class="text-link is-disabled">{project.demoSoon}</span>}
+              {project.products && (
+                <div class="app-badges">
+                  {project.products.map((product) => (
+                    <a href={product.links[0].href} aria-label={product.links[0].label}>
+                      <img src={withBase(product.icon)} alt="" width="32" height="32" loading="lazy" />
+                    </a>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+          <a class="project-media" href={withBase(`projects/${project.slug}/`)} aria-label={`View ${project.title} media`}>
+            {featured?.type === 'video' ? (
+              <video autoplay muted loop playsinline preload="metadata" poster={withBase(featured.poster)}>
+                <source src={withBase(featured.src)} />
+              </video>
+            ) : featured ? (
+              <img src={withBase(featured.src)} alt={featured.alt} width="1200" height="720" loading={index ? 'lazy' : 'eager'} decoding="async" />
+            ) : null}
           </a>
         </section>
-      ))}
-    </div>
+      );
+    })}
   </div>
 </BaseLayout>
 
-<script>
-  const nav = document.querySelector<HTMLElement>('[data-project-index]');
-  if (nav) {
-    const links = new Map(
-      Array.from(nav.querySelectorAll<HTMLAnchorElement>('[data-index-link]')).map((link) => [
-        link.dataset.indexLink,
-        link,
-      ]),
-    );
-
-    const setActive = (id: string) => {
-      links.forEach((link, linkId) => {
-        if (linkId === id) link.setAttribute('aria-current', 'true');
-        else link.removeAttribute('aria-current');
-      });
-    };
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((entry) => entry.isIntersecting);
-        if (visible.length === 0) return;
-        const topmost = visible.reduce((a, b) => (a.boundingClientRect.top < b.boundingClientRect.top ? a : b));
-        setActive(topmost.target.id);
-      },
-      { rootMargin: '-15% 0px -70% 0px' },
-    );
-
-    links.forEach((_, id) => {
-      const section = id ? document.getElementById(id) : null;
-      if (section) observer.observe(section);
-    });
-  }
-</script>
-
 <style>
-  .projects-hero { display:grid; grid-template-columns:minmax(11rem,13rem) minmax(0,1.5fr) minmax(15rem,.8fr); gap:clamp(2rem,5vw,4rem); align-items:start; padding-bottom:clamp(5rem,10vw,8rem); }
-  .projects-hero>.kicker { white-space:nowrap; }
-  .project-index>p,.project-number,figcaption { color:var(--color-muted); font:600 var(--text-label)/1.5 var(--font-utility); letter-spacing:.08em; text-transform:uppercase; }
-  .projects-hero h1 { font-size:var(--text-page); }
-  .projects-hero>p:last-child { color:var(--color-muted); }
-  .projects-layout { display:grid; grid-template-columns:minmax(10rem,14rem) minmax(0,1fr); gap:clamp(2rem,6vw,5rem); }
-  .project-index { position:sticky; top:2rem; align-self:start; }
-  .project-index ol { display:grid; gap:.25rem; margin:1rem 0 0; padding:0; list-style:none; }
-  .project-index a { display:grid; grid-template-columns:2rem 1fr; gap:.4rem; padding:.55rem 0; color:var(--color-muted); font-size:var(--text-supporting); line-height:1.4; text-decoration:none; }
-  .project-index a span { color:var(--color-accent); font-family:var(--font-utility); }
-  .project-index a:hover { color:var(--color-text); }
-  .project-index a[aria-current='true'] { color:var(--color-text); text-decoration:underline; text-decoration-color:var(--color-accent); text-decoration-thickness:.12rem; text-underline-offset:.3em; }
-  .project-record { scroll-margin-top:2rem; padding-bottom:clamp(5rem,11vw,9rem); }
-  .project-card { display:block; color:var(--color-text); text-decoration:none; }
-  .project-visual { margin:0; overflow:hidden; }
-  .project-visual img { display:block; width:100%; aspect-ratio:5/3; object-fit:cover; border:1px solid var(--color-border); transition:transform 400ms cubic-bezier(.2,.7,.2,1); }
-  .project-card:hover img { transform:scale(1.015); }
-  figcaption { margin-top:.7rem; text-transform:none; letter-spacing:.04em; }
-  .project-copy { display:grid; grid-template-columns:minmax(12rem,.8fr) minmax(15rem,1fr) auto; gap:clamp(1.25rem,4vw,3rem); align-items:start; margin-top:2rem; padding-top:2rem; border-top:1px solid var(--color-border); }
-  .project-number { margin-bottom:.6rem; }
-  .project-copy>p { color:var(--color-muted); }
-  .arrow { color:var(--color-accent); font-size:1.5rem; }
-  @media(max-width:52rem){
-    .projects-hero { grid-template-columns:1fr; gap:1rem; }
-    .projects-layout { grid-template-columns:1fr; }
-    .project-index { position:static; margin-bottom:2rem; overflow-x:auto; }
-    .project-index>p { display:none; }
-    .project-index ol { display:flex; width:max-content; margin:0; }
-    .project-index a { grid-template-columns:auto; padding:.75rem 1.25rem .75rem 0; border-bottom:1px solid var(--color-border); }
-    .project-index a span { display:none; }
-  }
-  @media(max-width:38rem){ .project-copy { grid-template-columns:1fr auto; gap:1rem; } .project-copy>p { grid-column:1/-1; grid-row:2; } .arrow { grid-column:2; grid-row:1; } }
-  @media(prefers-reduced-motion:reduce){ .project-visual img { transition:none; } }
+  .projects-hero { max-width: 44rem; padding-bottom: clamp(3rem, 7vw, 5rem); }
+  .projects-hero > p:last-child { margin-top: 1rem; color: var(--color-muted); }
+  .project-list { display: grid; gap: clamp(3.5rem, 8vw, 6rem); }
+  .project-record { display: grid; grid-template-columns: minmax(16rem, 1.3fr) 22rem; gap: clamp(1.5rem, 4vw, 3rem); align-items: center; }
+  .project-media { display: block; justify-self: end; width: 100%; max-width: 22rem; aspect-ratio: 16/9; overflow: hidden; border: 1px solid var(--color-border); background: var(--color-surface); }
+  .project-media img, .project-media video { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .project-number { margin-bottom: .6rem; color: var(--color-muted); font: 600 var(--text-label)/1.5 var(--font-utility); letter-spacing: .08em; text-transform: uppercase; }
+  .project-copy h2 { margin-bottom: .8rem; }
+  .project-copy h2 a { color: inherit; text-decoration: none; }
+  .project-copy h2 a:hover { color: var(--color-accent); }
+  .project-copy > p { color: var(--color-muted); }
+  .project-actions { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; align-items: center; margin-top: 1.25rem; }
+  .text-link.is-disabled { color: var(--color-muted); text-decoration: none; }
+  .app-badges { display: flex; gap: .6rem; }
+  .app-badges img { display: block; width: 2rem; height: 2rem; }
+  @media(max-width: 48rem) { .project-record { grid-template-columns: 1fr; } .project-media { justify-self: stretch; max-width: none; } }
 </style>

@@ -20,6 +20,7 @@ export interface Project {
   links?: ProjectLink[];
   products?: ProductLink[];
   status?: string;
+  demoSoon?: string;
 }
 
 export const projects: Project[] = [
@@ -37,15 +38,23 @@ export const projects: Project[] = [
     scopeLabel: 'Public scope', scope: 'Seven commercial games released across browser, Android, and iOS.',
     links: [{ label: 'Visit Tiny Little', href: 'https://tinylittle.io/' }],
     media: [
-      { type: 'image', src: 'images/projects/tiny-little-platform.svg', alt: 'Conceptual map of screens connected to shared player services.', caption: 'Shared platform concept · Placeholder artwork' },
-      { type: 'image', src: 'images/projects/tiny-little-services.svg', alt: 'Conceptual service diagram showing player data moving through a shared backend.', caption: 'Player-service flow · Placeholder artwork' },
-      { type: 'image', src: 'images/projects/tiny-little-releases.svg', alt: 'Conceptual release surface showing browser and mobile game formats.', caption: 'Release surfaces · Placeholder artwork' },
+      { type: 'image', src: 'images/projects/screenshots/tinylittle/tinylittle1.webp', alt: 'Tiny Little app overview screen.', caption: 'Tiny Little app overview' },
+      { type: 'image', src: 'images/projects/screenshots/tinylittle/tinylittle2.webp', alt: 'Friend messaging screen within the Tiny Little app.', caption: 'Friend messaging' },
+      { type: 'image', src: 'images/projects/screenshots/tinylittle/tinylittle3.webp', alt: 'Clan system screen showing joined and suggested clans.', caption: 'Clan system' },
+      { type: 'image', src: 'images/projects/screenshots/tinylittle/tinylittle4.webp', alt: 'Activity feed showing a followed friend’s post.', caption: 'Activity feed' },
+      { type: 'image', src: 'images/projects/screenshots/tinylittle/tinylittle5.webp', alt: 'In-app library listing the games on the shared platform.', caption: 'In-app game library' },
+      { type: 'image', src: 'images/projects/screenshots/tinylittle/tinylittle6.webp', alt: 'Devares card-collection gameplay screen.', caption: 'Devares gameplay' },
+      { type: 'image', src: 'images/projects/screenshots/tinylittle/tinylittle7.webp', alt: 'Tiny Little Tank battle gameplay screen.', caption: 'Tiny Little Tank gameplay' },
+      { type: 'image', src: 'images/projects/screenshots/tinylittle/tinylittle8.webp', alt: 'Tiny Little Jump platformer gameplay screen.', caption: 'Tiny Little Jump gameplay' },
+      { type: 'image', src: 'images/projects/screenshots/tinylittle/tinylittle9.webp', alt: 'Gifting screen for sending virtual gifts to friends.', caption: 'Gifting system' },
+      { type: 'video', src: 'videos/projects/deva.webm', poster: 'images/projects/apps/deva.webp', caption: 'Tiny Little Deva gameplay' },
+      { type: 'video', src: 'videos/projects/tinyroyale.webm', poster: 'images/projects/apps/tinyroyale.webp', caption: 'Tiny Little Royale gameplay' },
     ],
     products: [
-      { name: 'Tiny Little', icon: 'images/projects/apps/tiny-little.svg', links: [{ label: 'Tiny Little on Google Play', href: 'https://play.google.com/store/apps/details?id=com.tinylittle.app' }] },
-      { name: 'Tiny Little Royale', icon: 'images/projects/apps/royale.svg', links: [{ label: 'Tiny Little Royale on Google Play', href: 'https://play.google.com/store/apps/details?id=com.hengtech.tinylittleroyale' }, { label: 'Tiny Little Royale on the App Store', href: 'https://apps.apple.com/app/id6743611360' }] },
-      { name: 'Tiny Little Deva', icon: 'images/projects/apps/deva.svg', note: 'Currently listed as Deva: Hero Roguelike TD', links: [{ label: 'Deva on Google Play', href: 'https://play.google.com/store/apps/details?id=com.hengtech.tinylittledeva' }] },
-      { name: 'Devares', icon: 'images/projects/apps/devares.svg', links: [{ label: 'Devares on Google Play', href: 'https://play.google.com/store/apps/details?id=com.hengtech.devares' }, { label: 'Devares on the App Store', href: 'https://apps.apple.com/app/id6744045988' }] },
+      { name: 'Tiny Little', icon: 'images/projects/apps/tinylittle.webp', links: [{ label: 'Tiny Little on Google Play', href: 'https://play.google.com/store/apps/details?id=com.tinylittle.app' }] },
+      { name: 'Tiny Little Royale', icon: 'images/projects/apps/tinyroyale.webp', links: [{ label: 'Tiny Little Royale on Google Play', href: 'https://play.google.com/store/apps/details?id=com.hengtech.tinylittleroyale' }, { label: 'Tiny Little Royale on the App Store', href: 'https://apps.apple.com/app/id6743611360' }] },
+      { name: 'Tiny Little Deva', icon: 'images/projects/apps/deva.webp', note: 'Currently listed as Deva: Hero Roguelike TD', links: [{ label: 'Deva on Google Play', href: 'https://play.google.com/store/apps/details?id=com.hengtech.tinylittledeva' }] },
+      { name: 'Devares', icon: 'images/projects/apps/devares.webp', links: [{ label: 'Devares on Google Play', href: 'https://play.google.com/store/apps/details?id=com.hengtech.devares' }, { label: 'Devares on the App Store', href: 'https://apps.apple.com/app/id6744045988' }] },
     ],
   },
   {
@@ -56,7 +65,12 @@ export const projects: Project[] = [
     contributions: ['Built the offline Windows application around a local database for day-to-day dormitory management.', 'Added OneDrive backup support and deployed the application for an active client.', 'Continue to maintain the production application.'],
     scopeLabel: 'Production context', scope: 'Deployed for and maintained for an active commercial client.',
     status: 'Product demo in preparation',
-    media: [{ type: 'image', src: 'images/projects/rentpilot.svg', alt: 'Conceptual view of the local-first RentPilot workflow.', caption: 'Local-first workflow · Placeholder artwork' }],
+    demoSoon: 'Demo available soon',
+    media: [
+      { type: 'image', src: 'images/projects/screenshots/rentpilot/rentpilot1.png', alt: 'RentPilot dashboard showing occupancy rate and recent income.', caption: 'Dashboard' },
+      { type: 'image', src: 'images/projects/screenshots/rentpilot/rentpilot2.png', alt: 'RentPilot invoice creation screen.', caption: 'Invoice creation' },
+      { type: 'image', src: 'images/projects/screenshots/rentpilot/rentpilot3.png', alt: 'RentPilot overview of issued invoices.', caption: 'Invoice issue overview' },
+    ],
   },
   {
     slug: 'welearn-pro', domain: 'Enterprise learning', title: 'WeLearn Pro',
@@ -66,7 +80,7 @@ export const projects: Project[] = [
     contributions: ['Co-designed the backend architecture.', 'Implemented learning progress tracking, HLS streaming, and YouTube playback.', 'Implemented AFK detection and in-video quizzes.'],
     scopeLabel: 'Project context', scope: 'A master learning platform customised by the company for individual client deployments.',
     links: [{ label: 'Visit WeLearn Pro', href: 'https://welearnpro.com/' }],
-    media: [{ type: 'image', src: 'images/projects/welearn-pro.svg', alt: 'Conceptual view of video, progress, and learning checkpoints.', caption: 'Learning flow · Placeholder artwork' }],
+    media: [{ type: 'image', src: 'images/projects/screenshots/welearnpro/welearnpro1.webp', alt: 'WeLearn Pro marketing page showing the certificate editor feature.', caption: 'Certificate editor feature' }],
   },
   {
     slug: 'public-sector-solutions', domain: 'Public sector', title: 'Government & Public Sector Solutions',
