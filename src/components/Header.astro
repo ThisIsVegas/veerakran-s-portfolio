@@ -34,20 +34,22 @@ const isHomepage = withoutBase(Astro.url.pathname) === '/';
     }
   }
 
-  header:not([data-homepage='true']) .site-identity {
-    opacity: 1;
-    transform: none;
+  header[data-homepage='true'] {
+    opacity: 0;
+    transform: translateY(-0.6rem);
+    pointer-events: none;
   }
 
-  header[data-homepage='true'] .site-identity {
-    opacity: 0;
-    transform: translateY(-0.4rem);
+  header[data-homepage='true'][data-hero-full-view='false'] {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    transition: opacity 300ms ease, transform 300ms ease;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    header[data-homepage='true'] .site-identity {
-      opacity: 1;
-      transform: none;
+    header[data-homepage='true'][data-hero-full-view='false'] {
+      transition: none;
     }
   }
 

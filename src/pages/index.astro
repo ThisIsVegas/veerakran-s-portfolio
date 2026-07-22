@@ -129,8 +129,9 @@ const principles = [
 
 <script>
   const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && !connection?.saveData) {
-    const loadScene = () => import('../scripts/hero-scene').catch(() => undefined);
+    const loadScene = () => import('../scripts/hero-scene').then((mod) => mod.initHeroScene()).catch(() => undefined);
     const requestIdle = (window as unknown as {
       requestIdleCallback?: (callback: () => void, options: { timeout: number }) => number;
     }).requestIdleCallback;
@@ -138,7 +139,27 @@ const principles = [
     else window.setTimeout(loadScene, 120);
   }
 
-  import('../scripts/name-morph').catch(() => undefined);
+  import('../scripts/name-morph').then((mod) => mod.initNameMorph()).catch(() => undefined);
+
+  const hero = document.querySelector<HTMLElement>('.hero');
+  const header = document.querySelector<HTMLElement>('body > header');
+  if (hero && header) {
+    const heroObserver = new IntersectionObserver(
+      ([entry]) => {
+        header.dataset.heroFullView = entry.intersectionRatio >= 0.99 ? 'true' : 'false';
+      },
+      { threshold: [0, 0.99, 1] },
+    );
+    heroObserver.observe(hero);
+    document.addEventListener(
+      'astro:before-swap',
+      () => {
+        heroObserver.disconnect();
+        delete header.dataset.heroFullView;
+      },
+      { once: true },
+    );
+  }
 </script>
 
 <style>
