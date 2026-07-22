@@ -8,7 +8,9 @@ const { media } = Astro.props;
   {media.map((item, index) => (
     <figure>
       {item.type === 'image' ? (
-        <img src={withBase(item.src)} alt={item.alt} width="1200" height="720" loading={index ? 'lazy' : 'eager'} decoding="async" />
+        <button type="button" class="enlarge-trigger" data-enlarge-src={withBase(item.src)} data-enlarge-alt={item.alt} aria-label={`Enlarge image: ${item.caption}`}>
+          <img src={withBase(item.src)} alt={item.alt} width="1200" height="720" loading={index ? 'lazy' : 'eager'} decoding="async" />
+        </button>
       ) : (
         <>
           <video class="bg-video" autoplay muted loop playsinline preload="metadata" poster={withBase(item.poster)}>
@@ -27,11 +29,18 @@ const { media } = Astro.props;
     </figure>
   ))}
 </div>
+
+<dialog class="media-lightbox" data-media-lightbox>
+  <button type="button" class="lightbox-close" data-lightbox-close aria-label="Close enlarged image">✕</button>
+  <img data-lightbox-image alt="" />
+</dialog>
 <style>
-  .media-gallery { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:clamp(1rem,3vw,2rem); }
+  .media-gallery { display:grid; grid-template-columns:repeat(auto-fill,minmax(14rem,1fr)); gap:clamp(1rem,3vw,1.5rem); }
   figure { min-width:0; margin:0; }
-  figure:first-child { grid-column:1/-1; }
-  img,video { display:block; width:100%; aspect-ratio:5/3; object-fit:cover; background:var(--color-surface); border:1px solid var(--color-border); }
+  img,video { display:block; width:100%; max-height:18rem; object-fit:contain; background:var(--color-surface); border:1px solid var(--color-border); }
+  .enlarge-trigger { display:block; width:100%; padding:0; background:none; border:none; cursor:zoom-in; position:relative; }
+  .enlarge-trigger::after { content:'⤢'; position:absolute; top:.5rem; right:.5rem; width:1.8rem; height:1.8rem; display:flex; align-items:center; justify-content:center; color:#fff; background:rgba(0,0,0,.55); border-radius:.3rem; opacity:0; transition:opacity 150ms ease; }
+  .enlarge-trigger:hover::after, .enlarge-trigger:focus-visible::after { opacity:1; }
   .reduced-motion-fallback { display:none; }
   @media (prefers-reduced-motion: reduce) {
     .bg-video { display:none; }
@@ -46,4 +55,31 @@ const { media } = Astro.props;
     .media-gallery { display:flex; gap:.85rem; margin-inline:calc(-1 * clamp(1.25rem,4vw,2rem)); padding-inline:clamp(1.25rem,4vw,2rem); overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:thin; }
     figure,figure:first-child { flex:0 0 88%; scroll-snap-align:start; }
   }
+  .media-lightbox { max-width:min(90vw,60rem); max-height:85vh; padding:0; background:transparent; border:none; }
+  .media-lightbox::backdrop { background:rgba(0,0,0,.85); }
+  .media-lightbox img { display:block; width:100%; height:100%; max-height:85vh; object-fit:contain; }
+  .lightbox-close { position:fixed; top:1.25rem; right:1.5rem; width:2.25rem; height:2.25rem; color:#fff; font-size:1.1rem; background:rgba(0,0,0,.55); border:none; border-radius:.35rem; cursor:pointer; }
 </style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-media-lightbox]').forEach((dialog) => {
+    if (!(dialog instanceof HTMLDialogElement)) return;
+    const image = dialog.querySelector<HTMLImageElement>('[data-lightbox-image]');
+    const closeButton = dialog.querySelector<HTMLButtonElement>('[data-lightbox-close]');
+    const gallery = dialog.previousElementSibling;
+
+    gallery?.querySelectorAll<HTMLButtonElement>('[data-enlarge-src]').forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        if (!image) return;
+        image.src = trigger.dataset.enlargeSrc ?? '';
+        image.alt = trigger.dataset.enlargeAlt ?? '';
+        dialog.showModal();
+      });
+    });
+
+    closeButton?.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+  });
+</script>
