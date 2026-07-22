@@ -9,7 +9,7 @@ const experience = [
     dateRange: 'October 2021 - May 2026',
     location: 'Sri Racha, Chonburi, Thailand',
     projectHref: withBase('projects/tiny-little-platform/'),
-    projectLabel: 'View related Tiny Little Platform work',
+    projectLabel: 'View related work',
     bullets: [
       'Built backend services and REST APIs for the Tiny Little platform supporting seven commercial games.',
       'Designed backend architecture supporting shared player services across the Tiny Little platform.',
@@ -27,7 +27,7 @@ const experience = [
     dateRange: 'June 2018 - September 2021',
     location: 'Phaya Thai, Bangkok, Thailand',
     projectHref: withBase('projects/#professional-project-experience'),
-    projectLabel: 'View related public-sector work',
+    projectLabel: 'View related work',
     bullets: [
       'Developed enterprise software for private-sector clients, government agencies, and public organisations using C#, ASP.NET MVC, PHP, and Node.js.',
       'Modernised workstation management, access control, POS, and kiosk systems for a public organisation.',
@@ -78,6 +78,12 @@ const capabilityGroups = [
       'Barcode scanners',
     ],
   },
+];
+
+const workStages = [
+  { title: 'Learn', description: 'Understand an unfamiliar system, its constraints, and how it fits the project.' },
+  { title: 'Integrate', description: 'Connect it to existing APIs, data, services, applications, or hardware.' },
+  { title: 'Deliver', description: 'Make the result reliable enough for production, deployment, and maintenance.' },
 ];
 
 const resumePDFHref = withBase('resume.pdf');
@@ -284,6 +290,20 @@ const resumePDFHref = withBase('resume.pdf');
     gap: 0.55rem;
     margin-top: 1.35rem;
     padding-left: 1.25rem;
+    color: var(--color-muted);
+  }
+
+  .approach-list {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .approach-list h3 {
+    font-size: var(--text-supporting);
+  }
+
+  .approach-list p {
+    margin-top: 0.35rem;
     color: var(--color-muted);
   }
 
