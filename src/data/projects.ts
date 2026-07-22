@@ -51,9 +51,9 @@ export const projects: Project[] = [
       { type: 'video', src: 'videos/projects/tinyroyale.webm', poster: 'images/projects/apps/tinyroyale.webp', caption: 'Tiny Little Royale gameplay' },
     ],
     products: [
-      { name: 'Tiny Little', icon: 'images/projects/apps/tinylittle.webp', links: [{ label: 'Tiny Little on Google Play', href: 'https://play.google.com/store/apps/details?id=com.tinylittle.app' }] },
+      { name: 'Tiny Little', icon: 'images/projects/apps/tinylittle.webp', links: [{ label: 'Tiny Little on Google Play', href: 'https://play.google.com/store/apps/details?id=com.tinylittle.app' }, { label: 'Tiny Little on the App Store', href: 'https://apps.apple.com/th/app/tinylittle/id6466629837' }] },
       { name: 'Tiny Little Royale', icon: 'images/projects/apps/tinyroyale.webp', links: [{ label: 'Tiny Little Royale on Google Play', href: 'https://play.google.com/store/apps/details?id=com.hengtech.tinylittleroyale' }, { label: 'Tiny Little Royale on the App Store', href: 'https://apps.apple.com/app/id6743611360' }] },
-      { name: 'Tiny Little Deva', icon: 'images/projects/apps/deva.webp', note: 'Currently listed as Deva: Hero Roguelike TD', links: [{ label: 'Deva on Google Play', href: 'https://play.google.com/store/apps/details?id=com.hengtech.tinylittledeva' }] },
+      { name: 'Tiny Little Deva', icon: 'images/projects/apps/deva.webp', note: 'Currently listed as Deva: Hero Roguelike TD', links: [{ label: 'Deva on Google Play', href: 'https://play.google.com/store/apps/details?id=com.hengtech.tinylittledeva' }, { label: 'Deva on the App Store', href: 'https://apps.apple.com/th/app/deva-td/id6738650568' }] },
       { name: 'Devares', icon: 'images/projects/apps/devares.webp', links: [{ label: 'Devares on Google Play', href: 'https://play.google.com/store/apps/details?id=com.hengtech.devares' }, { label: 'Devares on the App Store', href: 'https://apps.apple.com/app/id6744045988' }] },
     ],
   },
