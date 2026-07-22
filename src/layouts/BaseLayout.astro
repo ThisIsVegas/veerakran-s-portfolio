@@ -1,4 +1,5 @@
 ---
+import { ClientRouter, fade } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { withBase, withoutBase } from '../utils/paths';
@@ -41,13 +42,31 @@ const isHomepage = withoutBase(Astro.url.pathname) === '/';
     <meta property="og:site_name" content="Veerakran Sereerungruangkul" />
     <meta name="color-scheme" content="light dark" />
     <link rel="icon" href={faviconURL} type="image/svg+xml" />
+    <ClientRouter />
   </head>
   <body data-homepage={isHomepage ? 'true' : undefined}>
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <Header />
-    <main id="main-content">
+    <Header transition:persist />
+    <main id="main-content" transition:animate={fade({ duration: '0.15s' })}>
       <slot />
     </main>
     <Footer />
+    <script>
+      const syncHeaderHomepageState = () => {
+        const header = document.querySelector<HTMLElement>('body > header');
+        if (!header) return;
+        if (document.body.dataset.homepage === 'true') {
+          header.dataset.homepage = 'true';
+        } else {
+          delete header.dataset.homepage;
+          delete header.dataset.heroFullView;
+        }
+      };
+      syncHeaderHomepageState();
+      if (!(window as unknown as { __headerSyncBound?: boolean }).__headerSyncBound) {
+        (window as unknown as { __headerSyncBound?: boolean }).__headerSyncBound = true;
+        document.addEventListener('astro:page-load', syncHeaderHomepageState);
+      }
+    </script>
   </body>
 </html>
