@@ -1,281 +1,134 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { withBase } from '../utils/paths';
-
-const experienceAreas = [
-  {
-    title: 'Live-service games',
-    description:
-      'Developed backend APIs, shared player services, gameplay functionality, and production deployments for browser and mobile games. The work included multiplayer platforms, payments, voice communication, advertising services, and cloud infrastructure.',
-  },
-  {
-    title: 'Enterprise IT systems',
-    description:
-      'Developed enterprise software for private-sector clients, government agencies, and public organizations. The work included database-driven web applications, Windows software, government information systems, and integrations with specialized hardware.',
-  },
-  {
-    title: 'Platforms and integration',
-    description:
-      'Researched unfamiliar technologies, integrated them into existing systems, and supported them in production across APIs, cloud services, hardware devices, mobile SDKs, and desktop applications.',
-  },
-];
-
-const capabilityGroups = [
-  {
-    title: 'Backend systems',
-    description: 'REST APIs, backend architecture, database design, and player services.',
-  },
-  {
-    title: 'Integration',
-    description: 'Third-party services, multiplayer platforms, payments, authentication, and hardware.',
-  },
-  {
-    title: 'Cloud and delivery',
-    description: 'Firebase, Cloud Run, serverless hosting, production deployment, and maintenance.',
-  },
-  {
-    title: 'Data and applications',
-    description: 'Firestore, SQL Server, Oracle Database, Windows applications, and offline software.',
-  },
-];
-
-const resumeHref = withBase('resume');
 ---
 
-<BaseLayout
-  title="Backend Developer"
-  description="Veerakran Sereerungruangkul is a Backend Developer working across enterprise IT systems, cloud services, systems integration, and live-service games."
->
+<BaseLayout title="Backend Developer" description="Veerakran Sereerungruangkul is a Backend Developer working across enterprise software, systems integration, cloud services, and live-service games.">
   <section class="hero" aria-labelledby="home-title">
-    <p class="section-label">Backend Developer</p>
-    <div class="hero-content">
-      <h1 id="home-title">Veerakran Sereerungruangkul</h1>
-      <p class="hero-summary">
-        Backend Developer with 7+ years of experience building enterprise software and backend
-        systems for live-service games. Experienced in developing APIs, designing databases, and
-        integrating cloud services, multiplayer platforms, payment systems, specialized hardware,
-        and third-party APIs.
-      </p>
-    </div>
-  </section>
-
-  <section class="connected-section" aria-labelledby="integration-title">
-    <p class="section-label">Working approach</p>
-    <div class="section-content">
-      <h2 id="integration-title">Systems integration</h2>
-      <div class="narrative">
-        <p>The recurring theme throughout my career is solving integration problems.</p>
-        <p>
-          Rather than specializing in one framework or technology, I have often been responsible
-          for researching unfamiliar technologies, understanding how they work, integrating them
-          into existing systems, and making them reliable enough for production use.
-        </p>
+    <svg class="hero-trace" viewBox="0 0 1000 620" aria-hidden="true">
+      <path class="trace trace-a" d="M50 116H244V250H414" />
+      <path class="trace trace-b" d="M950 474H756V340H586" />
+      <path class="trace trace-c" d="M500 32V168M500 452V588" />
+      <circle cx="244" cy="250" r="5" /><circle cx="756" cy="340" r="5" />
+      <circle cx="500" cy="168" r="5" /><circle cx="500" cy="452" r="5" />
+    </svg>
+    <div class="hero-copy">
+      <p class="kicker">Portfolio</p>
+      <h1 id="home-title">Veerakran <span>Sereerungruangkul</span></h1>
+      <div class="profession" aria-label="Professional focus">
+        <p>Backend Developer</p><span aria-hidden="true">·</span>
+        <p>Platform &amp; Systems Integration</p><span aria-hidden="true">·</span>
+        <p>Cloud &amp; Live-Service Games</p>
+      </div>
+      <p class="hero-location">Chonburi, Thailand</p>
+      <div class="hero-links" aria-label="Quick links">
+        <a href="mailto:veerakran.s@gmail.com" aria-label="Email">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="1.5"/><path d="M4.5 6.5L12 12.5L19.5 6.5"/></svg>
+        </a>
+        <a href="https://linkedin.com/in/veerakran-s" rel="me" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.94 8.5H3.56V20.5H6.94V8.5Z"/><path d="M5.25 3.5C4.15 3.5 3.25 4.4 3.25 5.5C3.25 6.6 4.15 7.5 5.25 7.5C6.35 7.5 7.25 6.6 7.25 5.5C7.25 4.4 6.35 3.5 5.25 3.5Z"/><path d="M9.5 8.5H12.74V10.02H12.79C13.24 9.17 14.34 8.27 15.99 8.27C19.4 8.27 20.5 10.36 20.5 13.44V20.5H17.13V14.13C17.13 12.68 17.1 10.82 15 10.82C12.87 10.82 12.87 12.55 12.87 14.23V20.5H9.5V8.5Z"/></svg>
+        </a>
+        <a href={withBase('projects/')} aria-label="Projects">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1"/><rect x="13" y="13" width="7.5" height="7.5" rx="1"/></svg>
+        </a>
+        <a href={withBase('resume')} aria-label="Resume">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5H14L18 7.5V20.5H6V3.5Z"/><path d="M14 3.5V7.5H18"/><path d="M8.5 12.5H15.5M8.5 15.5H15.5M8.5 9.5H11"/></svg>
+        </a>
+        <a href={withBase('resume.pdf')} aria-label="Download resume PDF" download>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5V15.5M12 15.5L7.5 11M12 15.5L16.5 11"/><path d="M4.5 16.5V19C4.5 19.83 5.17 20.5 6 20.5H18C18.83 20.5 19.5 19.83 19.5 19V16.5"/></svg>
+        </a>
       </div>
     </div>
   </section>
 
-  <section id="experience" class="connected-section" aria-labelledby="experience-title">
-    <p class="section-label">Professional range</p>
-    <div class="section-content">
-      <h2 id="experience-title">Experience across systems</h2>
-      <div class="experience-list">
-        {experienceAreas.map((area) => (
-          <article>
-            <h3>{area.title}</h3>
-            <p>{area.description}</p>
-          </article>
-        ))}
+  <div class="story">
+    <section id="introduction" class="intro-section" aria-labelledby="intro-title">
+      <div class="trace-content">
+        <h2 id="intro-title">Backend systems across live-service games and enterprise software.</h2>
+        <p class="lead">I research unfamiliar technologies, integrate them into existing systems, and help make them reliable in production. My work spans enterprise and public-sector software (2018–2021) and live-service games (2021–2026).</p>
+        <a class="text-link" href={withBase('resume')}>Read the full résumé <span aria-hidden="true">→</span></a>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="connected-section" aria-labelledby="capabilities-title">
-    <p class="section-label">Core work</p>
-    <div class="section-content">
-      <h2 id="capabilities-title">Technical capabilities</h2>
-      <div class="capability-grid">
-        {capabilityGroups.map((group) => (
-          <div>
-            <h3>{group.title}</h3>
-            <p>{group.description}</p>
-          </div>
-        ))}
+    <section id="work" class="story-section" aria-labelledby="work-title">
+      <div class="trace-content">
+        <h2 id="work-title">Selected work</h2>
+        <p class="section-intro">A small set of projects showing the range of systems I have worked on and the parts I contributed to.</p>
+        <a class="text-link" href={withBase('projects/')}>Explore all selected projects <span aria-hidden="true">→</span></a>
       </div>
-      <a class="resume-link" href={resumeHref}>
-        View detailed experience <span aria-hidden="true">&rarr;</span>
-      </a>
-    </div>
-  </section>
+    </section>
+  </div>
 </BaseLayout>
 
+<script>
+  const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && !connection?.saveData) {
+    const loadScene = () => import('../scripts/hero-scene').then((mod) => mod.initHeroScene()).catch(() => undefined);
+    const requestIdle = (window as unknown as {
+      requestIdleCallback?: (callback: () => void, options: { timeout: number }) => number;
+    }).requestIdleCallback;
+    if (requestIdle) requestIdle(loadScene, { timeout: 1200 });
+    else window.setTimeout(loadScene, 120);
+  }
+
+  import('../scripts/name-morph').then((mod) => mod.initNameMorph()).catch(() => undefined);
+
+  const hero = document.querySelector<HTMLElement>('.hero');
+  const header = document.querySelector<HTMLElement>('body > header');
+  if (hero && header) {
+    const heroObserver = new IntersectionObserver(
+      ([entry]) => {
+        header.dataset.heroFullView = entry.intersectionRatio >= 0.99 ? 'true' : 'false';
+      },
+      { threshold: [0, 0.99, 1] },
+    );
+    heroObserver.observe(hero);
+    document.addEventListener(
+      'astro:before-swap',
+      () => {
+        heroObserver.disconnect();
+        delete header.dataset.heroFullView;
+      },
+      { once: true },
+    );
+  }
+</script>
+
 <style>
-  .hero,
-  .connected-section {
-    display: grid;
-    grid-template-columns: minmax(9rem, 12rem) minmax(0, 1fr);
-    column-gap: clamp(2rem, 6vw, 5rem);
+  .hero { position: relative; display: grid; place-items: center; min-height: calc(100svh - var(--header-height)); margin-top: var(--header-height); overflow:hidden; text-align: center; isolation: isolate; }
+  .hero-copy { display: grid; justify-items: center; max-width: 70rem; animation: reveal 800ms cubic-bezier(.2,.7,.2,1) both; }
+  .hero h1 { max-width: 100%; margin-top: 1.25rem; font-size:var(--text-hero); line-height:.94; letter-spacing:-.055em; overflow-wrap:normal; }
+  .hero h1 span { display:block; }
+  .profession { display:flex; flex-wrap:wrap; justify-content:center; gap:.5rem .85rem; margin-top:clamp(1.75rem,4vw,2.75rem); color:var(--color-muted); font-size:clamp(.88rem,1.4vw,1rem); }
+  .profession span { color:var(--color-accent); }
+  .hero-location { margin-top:1rem; color:var(--color-muted); font-size:clamp(.85rem,1.2vw,.95rem); }
+  .hero-links { display:flex; gap:.6rem; margin-top:1.75rem; }
+  .hero-links a { display:grid; place-items:center; width:2.5rem; height:2.5rem; color:var(--color-muted); border:1px solid var(--color-border); border-radius:50%; text-decoration:none; }
+  .hero-links a:hover { color:var(--color-accent); border-color:var(--color-accent); }
+  .hero-links svg { width:1.15rem; height:1.15rem; fill:none; stroke:currentColor; stroke-width:1.4; stroke-linecap:round; stroke-linejoin:round; }
+  .hero-links a[aria-label="LinkedIn"] svg { fill:currentColor; stroke:none; }
+  .hero-trace { position:absolute; inset:5% 0; z-index:-1; width:100%; height:90%; color:var(--color-accent); opacity:.35; transition:opacity 500ms ease; }
+  .hero :global(.hero-canvas) { position:absolute; inset:0; z-index:-1; width:100%; height:100%; opacity:0; pointer-events:none; transition:opacity 700ms ease; }
+  .hero[data-three-ready='true'] :global(.hero-canvas) { opacity:.48; }
+  .hero[data-three-ready='true'] .hero-trace { opacity:0; }
+  .hero-trace path { fill:none; stroke:currentColor; stroke-width:1; stroke-dasharray:800; animation:draw 1200ms 160ms ease-out both; }
+  .hero-trace circle { fill:var(--color-bg); stroke:currentColor; stroke-width:1.5; }
+  .continue-link { position:absolute; bottom:1.5rem; display:flex; gap:.7rem; color:var(--color-muted); font:600 var(--text-label) var(--font-utility); letter-spacing:.08em; text-decoration:none; text-transform:uppercase; }
+  .story { max-width:48rem; margin-inline:auto; scroll-margin-top:2rem; text-align:center; }
+  .trace-content { padding:clamp(3rem,7vw,5.5rem) 0 clamp(4.5rem,10vw,8rem); }
+  .intro-section h2 { font-size:var(--text-narrative); }
+  .lead,.section-intro { margin:1.5rem auto 0; color:var(--color-muted); font-size:var(--text-lead); }
+  @keyframes draw { from { stroke-dashoffset:800; opacity:0; } to { stroke-dashoffset:0; opacity:1; } }
+  @keyframes reveal { from { opacity:0; transform:translateY(1rem); } to { opacity:1; transform:none; } }
+  @media (max-width:45rem) {
+    .hero { min-height:calc(100svh - var(--header-height)); }
+    .hero h1 { font-size:clamp(1.75rem,8vw,3.5rem); }
+    .profession { flex-direction:column; gap:.25rem; }
+    .profession span { display:none; }
+    .hero-trace { inset:12% -25%; width:150%; height:76%; }
+    .hero[data-three-ready='true'] :global(.hero-canvas) { opacity:.36; }
+    .trace-content { padding:2.5rem 0 5rem; }
   }
-
-  .hero {
-    align-items: start;
-    padding-bottom: clamp(4.5rem, 10vw, 8rem);
-  }
-
-  .section-label {
-    padding-top: 0.45rem;
-    color: var(--color-muted);
-    font-family: var(--font-utility);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .hero-content,
-  .section-content {
-    min-width: 0;
-  }
-
-  .hero-summary {
-    max-width: 43rem;
-    margin-top: clamp(1.75rem, 4vw, 3rem);
-    color: var(--color-muted);
-    font-size: clamp(1.08rem, 1rem + 0.5vw, 1.35rem);
-    line-height: 1.65;
-  }
-
-  .hero h1 {
-    font-size: clamp(2.1rem, 7vw, 5.75rem);
-  }
-
-  .connected-section {
-    scroll-margin-top: 2rem;
-  }
-
-  .section-content {
-    position: relative;
-    padding: clamp(3rem, 7vw, 5.5rem) 0 clamp(3.5rem, 8vw, 6rem)
-      clamp(1.5rem, 4vw, 3.5rem);
-    border-left: 1px solid var(--color-accent);
-  }
-
-  .connected-section > .section-label {
-    padding-top: clamp(3.35rem, 7vw, 5.85rem);
-  }
-
-  .section-content > h2 {
-    max-width: 38rem;
-  }
-
-  .narrative {
-    display: grid;
-    gap: 1.15rem;
-    max-width: var(--reading-width);
-    margin-top: 1.75rem;
-    color: var(--color-muted);
-    font-size: clamp(1.05rem, 1rem + 0.25vw, 1.2rem);
-  }
-
-  .experience-list {
-    margin-top: 2.25rem;
-  }
-
-  .experience-list article {
-    display: grid;
-    grid-template-columns: minmax(10rem, 0.75fr) minmax(0, 1.6fr);
-    gap: 1.5rem;
-    padding: 1.6rem 0;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .experience-list article:last-child {
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .experience-list p,
-  .capability-grid p {
-    color: var(--color-muted);
-  }
-
-  .capability-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0;
-    margin-top: 2.25rem;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .capability-grid > div {
-    min-height: 10rem;
-    padding: 1.5rem 1.5rem 1.5rem 0;
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .capability-grid > div:nth-child(odd) {
-    border-right: 1px solid var(--color-border);
-  }
-
-  .capability-grid > div:nth-child(even) {
-    padding-left: 1.5rem;
-  }
-
-  .capability-grid p {
-    margin-top: 0.7rem;
-    font-size: 0.95rem;
-  }
-
-  .resume-link {
-    display: inline-flex;
-    gap: 0.5rem;
-    margin-top: 2.5rem;
-    font-weight: 650;
-  }
-
-  @media (max-width: 45rem) {
-    .hero,
-    .connected-section {
-      grid-template-columns: 1fr;
-    }
-
-    .hero {
-      gap: 1.25rem;
-      padding-bottom: 4rem;
-    }
-
-    .section-content {
-      margin-top: 0.85rem;
-      padding: 2.25rem 0 4rem;
-      border-top: 1px solid var(--color-accent);
-      border-left: 0;
-    }
-
-    .connected-section > .section-label {
-      padding-top: 0;
-    }
-
-    .experience-list article {
-      grid-template-columns: 1fr;
-      gap: 0.65rem;
-    }
-  }
-
-  @media (max-width: 32rem) {
-    .capability-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .capability-grid > div,
-    .capability-grid > div:nth-child(even),
-    .capability-grid > div:nth-child(odd) {
-      min-height: 0;
-      padding: 1.35rem 0;
-      border-right: 0;
-    }
-  }
-
-  @media (max-width: 22rem) {
-    .hero h1 {
-      font-size: 1.85rem;
-    }
-  }
+  @media (prefers-reduced-motion:reduce) { .hero-copy,.hero-trace path { animation:none; } .hero-trace { transition:none; } }
 </style>

@@ -3,9 +3,19 @@ import { expect, test } from '@playwright/test';
 test('visitor can navigate the professional portfolio', async ({ page }) => {
   await page.goto('/');
 
-  await expect(page.getByRole('heading', { level: 1, name: 'Veerakran Sereerungruangkul' })).toBeVisible();
+  await expect(page.getByText('Veerakran Sereerungruangkul', { exact: true })).toBeVisible();
+  await expect(
+    page.getByRole('heading', {
+      level: 1,
+      name: 'Veerakran Sereerungruangkul',
+    }),
+  ).toBeVisible();
+  await expect(page.getByText('Backend Developer', { exact: true }).first()).toBeVisible();
+  await expect(page.getByText('Platform & Systems Integration', { exact: true })).toBeVisible();
+  await expect(page.getByText('Cloud & Live-Service Games', { exact: true })).toBeVisible();
   await expect(page.getByRole('navigation', { name: 'Primary' }).getByRole('link')).toHaveText([
     'Home',
+    'Projects',
     'Resume',
   ]);
   await expect(page.getByRole('link', { name: 'Home' })).toHaveAttribute('aria-current', 'page');
@@ -13,16 +23,91 @@ test('visitor can navigate the professional portfolio', async ({ page }) => {
   await page.getByRole('link', { name: 'Resume' }).click();
   await expect(page).toHaveURL(/\/resume\/?$/);
   await expect(page.getByRole('link', { name: 'Resume' })).toHaveAttribute('aria-current', 'page');
-  await expect(page.getByRole('heading', { level: 1, name: 'Resume' })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'Veerakran Sereerungruangkul' }),
+  ).toBeVisible();
   await expect(page.getByRole('link', { name: 'Download PDF' })).toHaveAttribute('href', '/resume.pdf');
 });
 
-test('retired routes direct visitors to relevant homepage sections', async ({ page }) => {
+test('visitor can review selected projects', async ({ page }) => {
+  await page.goto('/');
+
+  const projectsLink = page
+    .getByRole('navigation', { name: 'Primary' })
+    .getByRole('link', { name: 'Projects', exact: true });
+  await expect(projectsLink).toHaveAttribute('href', '/projects/');
+  await projectsLink.click();
+  await expect(page).toHaveURL(/\/projects\/?$/);
+  await expect(projectsLink).toHaveAttribute('aria-current', 'page');
+  await expect(page.getByRole('heading', { level: 1, name: 'Projects', exact: true })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { level: 2, name: 'Public case studies', exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('heading', { level: 2, name: 'Professional project experience' }),
+  ).toBeVisible();
+  await expect(page.getByRole('heading', { level: 3, name: 'Tiny Little Platform' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 3, name: 'RentPilot' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 3, name: 'WeLearn Pro' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 3, name: 'Public-sector information systems' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 3, name: 'Hardware-integrated Windows software' })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { level: 3, name: 'Enterprise software and systems integration' }),
+  ).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Tiny Little Platform', exact: true })).toHaveAttribute(
+    'href',
+    '/projects/tiny-little-platform/',
+  );
+  await expect(page.getByRole('link', { name: 'Open Tiny Little Platform case study' })).toHaveAttribute(
+    'href',
+    '/projects/tiny-little-platform/',
+  );
+  await expect(page.getByRole('navigation', { name: 'Project sections' })).toHaveCount(0);
+  await expect(page.locator('article.project-record')).toHaveCount(3);
+  await expect(page.locator('.project-media')).toHaveCount(3);
+  await expect(page.locator('.project-number, .app-badges, .project-media-row')).toHaveCount(0);
+  await expect(page.locator('article.workstream')).toHaveCount(3);
+  await expect(page.getByText(/TK Park|Central Institute|Public Debt Management Office/)).toHaveCount(0);
+  await expect(page.getByText('Photon Realtime', { exact: true })).toHaveCount(0);
+  await expect(page.getByText('Electron', { exact: true })).toHaveCount(0);
+});
+
+test('project records support rich media and verified public destinations', async ({ page }) => {
+  await page.goto('/projects/tiny-little-platform/');
+
+  await expect(page.getByRole('heading', { level: 1, name: 'Tiny Little Platform' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Projects', exact: true })).toHaveAttribute(
+    'aria-current',
+    'page',
+  );
+  await expect(page.getByRole('link', { name: 'Visit Tiny Little' })).toHaveAttribute(
+    'href',
+    'https://tinylittle.io/',
+  );
+  await expect(page.getByRole('heading', { level: 2, name: 'Related products' })).toBeVisible();
+  await expect(page.getByText('Tiny Little Royale', { exact: true })).toBeVisible();
+  await expect(page.getByText('Tiny Little Deva', { exact: true })).toBeVisible();
+  await expect(page.getByText('Devares', { exact: true })).toBeVisible();
+  await expect(page.locator('.media-gallery figure')).toHaveCount(11);
+  await expect(page.getByRole('link', { name: /Tiny Little Royale on Google Play/ })).toHaveAttribute(
+    'href',
+    'https://play.google.com/store/apps/details?id=com.hengtech.tinylittleroyale',
+  );
+
+  await page.goto('/projects/welearn-pro/');
+  await expect(page.getByRole('link', { name: 'Visit WeLearn Pro' })).toHaveAttribute(
+    'href',
+    'https://welearnpro.com/',
+  );
+
+  await page.goto('/projects/rentpilot/');
+  await expect(page.getByText('Product demo in preparation', { exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: /demo/i })).toHaveCount(0);
+});
+
+test('retired contact route directs visitors to the footer', async ({ page }) => {
   await page.goto('/contact');
   await expect(page).toHaveURL(/\/#contact$/);
-
-  await page.goto('/projects');
-  await expect(page).toHaveURL(/\/#experience$/);
 });
 
 test('resume PDF is publicly available', async ({ request }) => {
@@ -64,17 +149,20 @@ test('system appearance follows the operating system preference', async ({ page 
   await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(245, 246, 243)');
 });
 
-test('homepage presents experience by professional domain', async ({ page }) => {
+test('homepage moves from a brief introduction into the detailed career story', async ({ page }) => {
   await page.goto('/');
 
-  await expect(page.getByRole('heading', { level: 2, name: 'Systems integration' })).toBeVisible();
-  await expect(page.getByRole('heading', { level: 2, name: 'Experience across systems' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 2, name: 'How I work' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 3, name: 'Learn' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 3, name: 'Integrate' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 3, name: 'Deliver' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 2, name: 'Two industries, similar problems' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 3, name: 'Enterprise software' })).toBeVisible();
   await expect(page.getByRole('heading', { level: 3, name: 'Live-service games' })).toBeVisible();
-  await expect(page.getByRole('heading', { level: 3, name: 'Enterprise IT systems' })).toBeVisible();
-  await expect(page.getByRole('heading', { level: 2, name: 'Technical capabilities' })).toBeVisible();
-  await expect(page.getByText('Hengtech Co., Ltd.')).toHaveCount(0);
-  await expect(page.getByText('Wewasanad Co., Ltd.')).toHaveCount(0);
-  await expect(page.getByRole('link', { name: 'View detailed experience' })).toHaveAttribute('href', '/resume');
+  await expect(page.getByRole('heading', { level: 2, name: 'Selected work' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 2, name: 'Practical software over clever software' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 2, name: 'Technical capabilities' })).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Read the full résumé' })).toHaveAttribute('href', '/resume');
   await expect(page.locator('#contact')).toContainText('veerakran.s@gmail.com');
 });
 
@@ -89,6 +177,7 @@ test('resume keeps detailed chronology and supporting capabilities', async ({ pa
   await expect(page.getByRole('heading', { level: 3, name: 'Platform integration' })).toBeVisible();
   await expect(page.getByRole('heading', { level: 2, name: 'Languages' })).toBeVisible();
   await expect(page.getByText('Veerakran Sereerungruangkul', { exact: true })).toBeVisible();
+  await expect(page.getByText(/TK Park|Central Institute|Public Debt Management Office/)).toHaveCount(0);
 });
 
 test('printed resume removes website controls', async ({ page }) => {
@@ -109,11 +198,7 @@ test('portfolio remains usable without horizontal overflow on mobile', async ({ 
   await page.setViewportSize({ width: 320, height: 800 });
 
   await page.goto('/');
-  const nameLineCount = await page.getByRole('heading', { level: 1 }).evaluate((heading) => {
-    const styles = getComputedStyle(heading);
-    return heading.getBoundingClientRect().height / Number.parseFloat(styles.lineHeight);
-  });
-  expect(nameLineCount).toBeLessThanOrEqual(2.1);
+  await expect(page.getByText('Veerakran Sereerungruangkul', { exact: true })).toBeVisible();
 
   for (const viewport of [
     { width: 320, height: 800 },
@@ -121,12 +206,12 @@ test('portfolio remains usable without horizontal overflow on mobile', async ({ 
     { width: 1440, height: 900 },
   ]) {
     await page.setViewportSize(viewport);
-    for (const path of ['/', '/resume']) {
+    for (const path of ['/', '/projects/', '/projects/tiny-little-platform/', '/resume']) {
       await page.goto(path);
       const hasHorizontalOverflow = await page.evaluate(
         () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
       );
-      expect(hasHorizontalOverflow).toBe(false);
+      expect(hasHorizontalOverflow, `${path} overflows at ${viewport.width}px`).toBe(false);
     }
   }
 
@@ -137,16 +222,24 @@ test('portfolio remains usable without horizontal overflow on mobile', async ({ 
 });
 
 test('theme control and primary navigation work from the keyboard', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 800 });
   await page.goto('/');
 
   const theme = page.getByLabel('Theme');
+  const resumeLink = page.getByRole('link', { name: 'Resume' });
+  const resumePosition = await resumeLink.boundingBox();
+  const themePosition = await theme.boundingBox();
+  expect(resumePosition).not.toBeNull();
+  expect(themePosition).not.toBeNull();
+  expect(themePosition!.y + themePosition!.height).toBeGreaterThanOrEqual(resumePosition!.y);
+
   await theme.focus();
   await page.keyboard.press('ArrowDown');
   await expect(theme).toHaveValue('light');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   await expect(theme).toHaveCSS('outline-style', 'solid');
 
-  await page.getByRole('link', { name: 'Resume' }).focus();
+  await resumeLink.focus();
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(/\/resume\/?$/);
 });
@@ -159,6 +252,56 @@ test('reduced motion preference removes nonessential transitions', async ({ page
     Number.parseFloat(getComputedStyle(element).transitionDuration),
   );
   expect(duration).toBeLessThanOrEqual(0.001);
+
+  const heroDuration = await page.locator('.hero-copy').evaluate((element) =>
+    Number.parseFloat(getComputedStyle(element).animationDuration),
+  );
+  expect(heroDuration).toBeLessThanOrEqual(0.001);
+});
+
+test('hero progressively enhances with Three.js while preserving the motion-safe fallback', async ({
+  browser,
+}) => {
+  const enhancedPage = await browser.newPage();
+  await enhancedPage.goto('/');
+  await expect(enhancedPage.locator('.hero canvas')).toBeVisible();
+  await expect(enhancedPage.locator('.hero')).toHaveAttribute('data-three-ready', 'true');
+  await enhancedPage.close();
+
+  const reducedContext = await browser.newContext({ reducedMotion: 'reduce' });
+  const reducedPage = await reducedContext.newPage();
+  await reducedPage.goto('/');
+  await expect(reducedPage.locator('.hero canvas')).toHaveCount(0);
+  await expect(reducedPage.locator('.hero-trace')).toBeVisible();
+  await reducedContext.close();
+});
+
+test('hero keeps the static fallback when the visitor is saving data', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'connection', {
+      configurable: true,
+      value: { saveData: true },
+    });
+  });
+  await page.goto('/');
+
+  await expect(page.locator('.hero canvas')).toHaveCount(0);
+  await expect(page.locator('.hero-trace')).toBeVisible();
+});
+
+test('hero pauses and resumes across back-forward cache lifecycle events', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('.hero')).toHaveAttribute('data-three-ready', 'true');
+
+  await page.evaluate(() =>
+    window.dispatchEvent(new PageTransitionEvent('pagehide', { persisted: true })),
+  );
+  await expect(page.locator('.hero')).not.toHaveAttribute('data-three-ready', 'true');
+
+  await page.evaluate(() =>
+    window.dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true })),
+  );
+  await expect(page.locator('.hero')).toHaveAttribute('data-three-ready', 'true');
 });
 
 test('stored appearance is applied by the first document render', async ({ page }) => {
@@ -175,7 +318,7 @@ test('primary text, supporting text, and links retain accessible contrast', asyn
 
   for (const theme of ['light', 'dark']) {
     await page.getByLabel('Theme').selectOption(theme);
-    for (const selector of ['body', '.hero-summary', '.resume-link']) {
+    for (const selector of ['body', '.lead', '.text-link']) {
       const ratio = await page.locator(selector).first().evaluate((element) => {
         const parseColour = (value: string) =>
           value.match(/[\d.]+/g)?.slice(0, 3).map(Number) ?? [0, 0, 0];
@@ -195,4 +338,36 @@ test('primary text, supporting text, and links retain accessible contrast', asyn
       expect(ratio).toBeGreaterThanOrEqual(4.5);
     }
   }
+});
+
+test('typography keeps the hero as the only oversized text and preserves readable minimums', async ({
+  page,
+}) => {
+  const fontSize = (selector: string) =>
+    page.locator(selector).first().evaluate((element) => Number.parseFloat(getComputedStyle(element).fontSize));
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  expect(await fontSize('.hero h1')).toBeGreaterThan(80);
+  expect(await fontSize('.intro-section h2')).toBeLessThanOrEqual(52);
+  expect(await fontSize('.lead')).toBeGreaterThanOrEqual(16);
+  expect(await fontSize('.hero .kicker')).toBeGreaterThanOrEqual(12.5);
+
+  await page.goto('/projects/');
+  expect(await fontSize('.projects-hero h1')).toBeLessThanOrEqual(60);
+  expect(await fontSize('.project-context')).toBeGreaterThanOrEqual(12.5);
+
+  await page.goto('/projects/tiny-little-platform/');
+  expect(await fontSize('.project-hero h1')).toBeLessThanOrEqual(64);
+  expect(await fontSize('.project-hero .kicker')).toBeGreaterThanOrEqual(12.5);
+  expect(await fontSize('.store-links a')).toBeGreaterThanOrEqual(14);
+  expect(await fontSize('.store-links a')).toBeLessThanOrEqual(14.5);
+
+  await page.goto('/resume');
+  expect(await fontSize('.resume-hero h1')).toBeLessThanOrEqual(56);
+  expect(await fontSize('.summary')).toBeGreaterThanOrEqual(16);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/projects/tiny-little-platform/');
+  expect(await fontSize('.project-hero h1')).toBeLessThanOrEqual(48);
 });
