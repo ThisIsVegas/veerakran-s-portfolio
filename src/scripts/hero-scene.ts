@@ -185,11 +185,13 @@ export function initHeroScene() {
       const eased = 1 - (1 - progress) ** 3;
       nodes.forEach((node, index) => {
         node.position.lerpVectors(origins[index], targets[index], eased);
-        if (progress === 1) node.position.z = targets[index].z + Math.sin(time * 0.00035 + index) * 0.045;
+        if (progress === 1) node.position.z = targets[index].z + Math.sin(time * 0.00035 + index * 0.9) * 0.06;
       });
 
-      network.rotation.y += (pointerTarget.x - network.rotation.y) * 0.035;
-      network.rotation.x += (-pointerTarget.y - network.rotation.x) * 0.035;
+      const driftY = Math.sin(time * 0.00012) * 0.05;
+      const driftX = Math.sin(time * 0.00009 + 1.7) * 0.03;
+      network.rotation.y += (pointerTarget.x + driftY - network.rotation.y) * 0.035;
+      network.rotation.x += (-pointerTarget.y + driftX - network.rotation.x) * 0.035;
       updateLines();
       renderer.render(scene, camera);
       hero.dataset.threeReady = 'true';
