@@ -1,19 +1,15 @@
 ---
 import Nav from './Nav.astro';
 import ThemeControl from './ThemeControl.astro';
-import { withBase, withoutBase } from '../utils/paths';
+import { withoutBase } from '../utils/paths';
 
-const homeHref = withBase();
 const isHomepage = withoutBase(Astro.url.pathname) === '/';
 ---
 
 <header data-homepage={isHomepage ? 'true' : undefined}>
   <div class="header-inner">
-    <a class="site-identity" href={homeHref}>Veerakran S.</a>
-    <div class="header-controls">
-      <div class="nav-slot"><Nav /></div>
-      <div class="theme-slot"><ThemeControl /></div>
-    </div>
+    <div class="nav-slot"><Nav /></div>
+    <div class="theme-slot"><ThemeControl /></div>
   </div>
 </header>
 
@@ -65,49 +61,7 @@ const isHomepage = withoutBase(Astro.url.pathname) === '/';
     padding: var(--spacing-2);
   }
 
-  .site-identity {
-    color: var(--color-text);
-    font-weight: 700;
-    text-decoration: none;
-    transition: opacity 200ms ease, transform 200ms ease;
-  }
-
-  .site-identity:hover {
-    color: var(--color-accent);
-  }
-
-  .header-controls {
-    display: flex;
-    align-items: center;
-    gap: clamp(0.85rem, 3vw, 2rem);
-  }
-
-  @media (max-width: 35rem) {
-    .header-inner {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      row-gap: 0.8rem;
-    }
-
-    .site-identity {
-      grid-column: 1 / -1;
-      grid-row: 1;
-    }
-
-    .header-controls {
-      display: contents;
-    }
-
-    .nav-slot {
-      min-width: 0;
-      grid-column: 1;
-      grid-row: 2;
-    }
-
-    .theme-slot {
-      grid-column: 2;
-      grid-row: 2;
-      align-self: center;
-    }
+  .nav-slot {
+    min-width: 0;
   }
 </style>
