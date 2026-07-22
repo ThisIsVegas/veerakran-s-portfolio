@@ -3,18 +3,21 @@ import { withBase, withoutBase } from '../utils/paths';
 
 const links = [
   { href: withBase(), path: '/', label: 'Home' },
+  { href: withBase('projects/'), path: '/projects', label: 'Projects' },
   { href: withBase('resume'), path: '/resume', label: 'Resume' },
 ];
 
 const currentPath = Astro.url.pathname;
 const relativePath = withoutBase(currentPath);
+const isCurrent = (path: string) =>
+  path === '/projects' ? relativePath.startsWith('/projects') : relativePath === path;
 ---
 
 <nav aria-label="Primary">
   <ul class="nav-list">
     {links.map((link) => (
       <li>
-        <a href={link.href} aria-current={relativePath === link.path ? 'page' : undefined}>
+        <a href={link.href} aria-current={isCurrent(link.path) ? 'page' : undefined}>
           {link.label}
         </a>
       </li>
@@ -35,13 +38,17 @@ const relativePath = withoutBase(currentPath);
 
   .nav-list {
     display: flex;
-    gap: clamp(0.85rem, 2.5vw, 1.5rem);
+    gap: clamp(1.1rem, 3vw, 2rem);
   }
 
   a {
+    display: inline-block;
+    margin: -0.6rem -0.1rem;
+    padding: 0.6rem 0.1rem;
     color: var(--color-muted);
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: clamp(0.95rem, 1.3vw, 1.05rem);
+    font-weight: 700;
+    letter-spacing: 0.02em;
     text-decoration: none;
     text-underline-offset: 0.3em;
   }
@@ -55,5 +62,15 @@ const relativePath = withoutBase(currentPath);
     text-decoration: underline;
     text-decoration-color: var(--color-accent);
     text-decoration-thickness: 0.12rem;
+  }
+
+  @media (max-width: 35rem) {
+    .nav-list {
+      gap: 0.65rem;
+    }
+
+    a {
+      font-size: var(--text-supporting);
+    }
   }
 </style>

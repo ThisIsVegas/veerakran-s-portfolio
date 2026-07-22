@@ -8,6 +8,8 @@ const experience = [
     title: 'Backend Developer',
     dateRange: 'October 2021 - May 2026',
     location: 'Sri Racha, Chonburi, Thailand',
+    projectHref: withBase('projects/tiny-little-platform/'),
+    projectLabel: 'View related work',
     bullets: [
       'Built backend services and REST APIs for the Tiny Little platform supporting seven commercial games.',
       'Designed backend architecture supporting shared player services across the Tiny Little platform.',
@@ -24,14 +26,16 @@ const experience = [
     title: 'Software Programmer',
     dateRange: 'June 2018 - September 2021',
     location: 'Phaya Thai, Bangkok, Thailand',
+    projectHref: withBase('projects/#professional-project-experience'),
+    projectLabel: 'View related work',
     bullets: [
-      'Developed enterprise software for private-sector clients, government agencies, and public organizations using C#, ASP.NET MVC, PHP, and Node.js.',
-      "Modernized TK Park's workstation, access control, POS, and kiosk systems.",
+      'Developed enterprise software for private-sector clients, government agencies, and public organisations using C#, ASP.NET MVC, PHP, and Node.js.',
+      'Modernised workstation management, access control, POS, and kiosk systems for a public organisation.',
       'Developed Windows applications integrating Thai Citizen ID smart card readers, barcode scanners, RFID devices, and digital signature pads.',
-      'Built backend services and frontend integrations for government information systems, including the Central Institute of Forensic Science (CIFS) and the Public Debt Management Office (PDMO).',
-      'Developed LINE chatbot solutions and customized enterprise applications based on client requirements.',
+      'Built backend services and frontend integrations for government information systems.',
+      'Developed LINE chatbot solutions and customised enterprise applications based on client requirements.',
       'Designed and maintained Microsoft SQL Server and Oracle databases.',
-      'Built Windows and web utility applications integrating enterprise software with specialized hardware.',
+      'Built Windows and web utility applications integrating enterprise software with specialised hardware.',
     ],
   },
 ];
@@ -76,6 +80,12 @@ const capabilityGroups = [
   },
 ];
 
+const workStages = [
+  { title: 'Learn', description: 'Understand an unfamiliar system, its constraints, and how it fits the project.' },
+  { title: 'Integrate', description: 'Connect it to existing APIs, data, services, applications, or hardware.' },
+  { title: 'Deliver', description: 'Make the result reliable enough for production, deployment, and maintenance.' },
+];
+
 const resumePDFHref = withBase('resume.pdf');
 ---
 
@@ -83,11 +93,11 @@ const resumePDFHref = withBase('resume.pdf');
   <article class="resume-page">
     <header class="resume-hero">
       <div>
-        <p class="eyebrow">Career overview</p>
-        <h1>Resume</h1>
-        <p class="candidate-name">Veerakran Sereerungruangkul</p>
+        <p class="kicker">Résumé / Career overview</p>
+        <h1>Veerakran Sereerungruangkul</h1>
+        <p class="candidate-name">Backend Developer · Platform &amp; Systems Integration</p>
       </div>
-      <a class="pdf-link" href={resumePDFHref}>Download PDF</a>
+      <a class="text-link pdf-link" href={resumePDFHref}>Download PDF</a>
     </header>
 
     <p class="summary">
@@ -99,7 +109,7 @@ const resumePDFHref = withBase('resume.pdf');
 
     <section class="resume-section" aria-labelledby="employment-heading">
       <div class="section-heading">
-        <p class="eyebrow">Experience</p>
+        <p class="kicker">Experience</p>
         <h2 id="employment-heading">Employment history</h2>
       </div>
       <div class="section-body jobs">
@@ -116,6 +126,7 @@ const resumePDFHref = withBase('resume.pdf');
             <ul>
               {job.bullets.map((bullet) => <li>{bullet}</li>)}
             </ul>
+            <a class="text-link related-link" href={job.projectHref}>{job.projectLabel} <span aria-hidden="true">→</span></a>
           </article>
         ))}
       </div>
@@ -123,7 +134,7 @@ const resumePDFHref = withBase('resume.pdf');
 
     <section class="resume-section" aria-labelledby="education-heading">
       <div class="section-heading">
-        <p class="eyebrow">Study</p>
+        <p class="kicker">Study</p>
         <h2 id="education-heading">Education</h2>
       </div>
       <div class="section-body education">
@@ -135,7 +146,7 @@ const resumePDFHref = withBase('resume.pdf');
 
     <section class="resume-section" aria-labelledby="skills-heading">
       <div class="section-heading">
-        <p class="eyebrow">Technical work</p>
+        <p class="kicker">Technical work</p>
         <h2 id="skills-heading">Technical capabilities</h2>
       </div>
       <div class="section-body capability-list">
@@ -152,7 +163,7 @@ const resumePDFHref = withBase('resume.pdf');
 
     <section class="resume-section" aria-labelledby="languages-heading">
       <div class="section-heading">
-        <p class="eyebrow">Communication</p>
+        <p class="kicker">Communication</p>
         <h2 id="languages-heading">Languages</h2>
       </div>
       <div class="section-body language-list">
@@ -180,7 +191,8 @@ const resumePDFHref = withBase('resume.pdf');
 
   .resume-hero h1 {
     margin-top: 0.4rem;
-    font-size: clamp(3rem, 7vw, 5rem);
+    max-width: 48rem;
+    font-size: var(--text-resume-title);
   }
 
   .candidate-name {
@@ -189,12 +201,17 @@ const resumePDFHref = withBase('resume.pdf');
     font-weight: 650;
   }
 
-  .eyebrow,
+  .related-link {
+    display: inline-block;
+    margin-top: 1.35rem;
+    font-size: var(--text-supporting);
+  }
+
   .date-range,
   .location {
     color: var(--color-muted);
     font-family: var(--font-utility);
-    font-size: 0.7rem;
+    font-size: var(--text-label);
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -203,15 +220,14 @@ const resumePDFHref = withBase('resume.pdf');
   .pdf-link {
     flex: none;
     padding-bottom: 0.3rem;
-    font-size: 0.9rem;
-    font-weight: 650;
+    font-size: var(--text-supporting);
   }
 
   .summary {
     max-width: 47rem;
     margin: 2rem 0 clamp(4rem, 8vw, 6rem);
     color: var(--color-muted);
-    font-size: clamp(1.05rem, 1rem + 0.25vw, 1.2rem);
+    font-size: var(--text-lead);
   }
 
   .resume-section {
@@ -274,6 +290,20 @@ const resumePDFHref = withBase('resume.pdf');
     gap: 0.55rem;
     margin-top: 1.35rem;
     padding-left: 1.25rem;
+    color: var(--color-muted);
+  }
+
+  .approach-list {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .approach-list h3 {
+    font-size: var(--text-supporting);
+  }
+
+  .approach-list p {
+    margin-top: 0.35rem;
     color: var(--color-muted);
   }
 
@@ -382,7 +412,7 @@ const resumePDFHref = withBase('resume.pdf');
     }
 
     .resume-hero h1 {
-      font-size: 28pt;
+      font-size: 25pt;
     }
 
     .summary {
@@ -415,6 +445,10 @@ const resumePDFHref = withBase('resume.pdf');
     .job ul {
       gap: 0.2rem;
       margin-top: 0.6rem;
+    }
+
+    .related-link {
+      display: none;
     }
 
     .capability-group {

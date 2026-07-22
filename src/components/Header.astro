@@ -1,25 +1,56 @@
 ---
 import Nav from './Nav.astro';
 import ThemeControl from './ThemeControl.astro';
-import { withBase } from '../utils/paths';
+import { withoutBase } from '../utils/paths';
 
-const homeHref = withBase();
+const isHomepage = withoutBase(Astro.url.pathname) === '/';
 ---
 
-<header>
+<header data-homepage={isHomepage ? 'true' : undefined}>
   <div class="header-inner">
-    <a class="site-identity" href={homeHref}>Veerakran S.</a>
-    <div class="header-controls">
-      <Nav />
-      <ThemeControl />
-    </div>
+    <div class="nav-slot"><Nav /></div>
+    <div class="theme-slot"><ThemeControl /></div>
   </div>
 </header>
 
 <style>
   header {
-    border-bottom: 1px solid var(--color-border);
-    background: var(--color-bg);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    backdrop-filter: blur(0.5rem);
+    -webkit-backdrop-filter: blur(0.5rem);
+  }
+
+  :global(:root) {
+    --header-height: 5rem;
+  }
+
+  @media (max-width: 35rem) {
+    :global(:root) {
+      --header-height: 7.5rem;
+    }
+  }
+
+  header[data-homepage='true'] {
+    opacity: 0;
+    transform: translateY(-0.6rem);
+    pointer-events: none;
+  }
+
+  header[data-homepage='true'][data-hero-full-view='false'] {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    transition: opacity 300ms ease, transform 300ms ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    header[data-homepage='true'][data-hero-full-view='false'] {
+      transition: none;
+    }
   }
 
   .header-inner {
@@ -29,34 +60,10 @@ const homeHref = withBase();
     gap: var(--spacing-2);
     max-width: var(--site-width);
     margin-inline: auto;
-    padding: var(--spacing-2);
+    padding: var(--spacing-3) var(--spacing-2);
   }
 
-  .site-identity {
-    color: var(--color-text);
-    font-weight: 700;
-    text-decoration: none;
-  }
-
-  .site-identity:hover {
-    color: var(--color-accent);
-  }
-
-  .header-controls {
-    display: flex;
-    align-items: center;
-    gap: clamp(0.85rem, 3vw, 2rem);
-  }
-
-  @media (max-width: 35rem) {
-    .header-inner {
-      align-items: flex-start;
-    }
-
-    .header-controls {
-      align-items: flex-end;
-      flex-direction: column;
-      gap: 0.65rem;
-    }
+  .nav-slot {
+    min-width: 0;
   }
 </style>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Conceptual learning progress interface</title>
+  <desc id="desc">Abstract video timeline, progress records, and learning checkpoints.</desc>
+  <rect width="1200" height="720" fill="#111714"/>
+  <rect x="94" y="92" width="1012" height="536" rx="14" fill="#19221d" stroke="#34413a" stroke-width="2"/>
+  <rect x="146" y="144" width="626" height="352" rx="8" fill="#26332c"/>
+  <path d="m426 248 112 72-112 72Z" fill="#7eb7de"/>
+  <rect x="146" y="526" width="626" height="10" rx="5" fill="#34413a"/>
+  <rect x="146" y="526" width="392" height="10" rx="5" fill="#7eb7de"/>
+  <g fill="none" stroke="#a5b0a9" stroke-width="3">
+    <circle cx="922" cy="218" r="76"/>
+    <path d="M922 142a76 76 0 0 1 72 100" stroke="#7eb7de" stroke-width="12"/>
+  </g>
+  <g fill="#a5b0a9">
+    <rect x="838" y="344" width="168" height="13" rx="6"/>
+    <rect x="838" y="384" width="214" height="13" rx="6"/>
+    <rect x="838" y="424" width="138" height="13" rx="6"/>
+    <rect x="838" y="464" width="188" height="13" rx="6"/>
+  </g>
+  <g fill="#7eb7de">
+    <circle cx="818" cy="350" r="7"/>
+    <circle cx="818" cy="390" r="7"/>
+    <circle cx="818" cy="430" r="7"/>
+    <circle cx="818" cy="470" r="7"/>
+  </g>
+</svg>

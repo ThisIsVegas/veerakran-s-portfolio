@@ -8,4 +8,10 @@ export default defineConfig({
   site: SITE_URL,
   base: BASE_PATH,
   integrations: [sitemap()],
+  vite: {
+    build: {
+      // Avoid a duplicate Vite warning; scripts/check-client-bundles.mjs enforces scoped budgets.
+      chunkSizeWarningLimit: 520,
+    },
+  },
 });

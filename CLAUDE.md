@@ -238,6 +238,8 @@ Avoid
 
 If a design decision exists only because it looks impressive, it is probably the wrong decision.
 
+Exception: scroll-driven motion that reinforces structure or navigation (a persistent header, an identity element transitioning from hero to header, section-aware navigation) is allowed. It must respect `prefers-reduced-motion`, stay performant, and never block or hijack scrolling. This is not licence for ornamental motion — the rules against parallax backgrounds, fake terminals, skill bars, 3D effects, glassmorphism, and unnecessary gradients still stand.
+
 ---
 
 # Engineering Philosophy

@@ -17,6 +17,9 @@ playwright-report/
 
 # temporary visual QA
 /resume-*.png
+/portfolio-*.png
+/type-*.png
+/debug.log
 
 # macOS-specific files
 .DS_Store
