@@ -39,7 +39,7 @@ test('visitor can review selected projects', async ({ page }) => {
   await projectsLink.click();
   await expect(page).toHaveURL(/\/projects\/?$/);
   await expect(projectsLink).toHaveAttribute('aria-current', 'page');
-  await expect(page.getByRole('heading', { level: 1, name: 'Selected projects' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: 'Projects', exact: true })).toBeVisible();
   await expect(
     page.getByRole('heading', { level: 2, name: 'Public case studies', exact: true }),
   ).toBeVisible();
@@ -58,11 +58,14 @@ test('visitor can review selected projects', async ({ page }) => {
     'href',
     '/projects/tiny-little-platform/',
   );
-  await expect(page.getByRole('link', { name: /Professional project experience/ })).toHaveAttribute(
+  await expect(page.getByRole('link', { name: 'Open Tiny Little Platform case study' })).toHaveAttribute(
     'href',
-    '#professional-project-experience',
+    '/projects/tiny-little-platform/',
   );
+  await expect(page.getByRole('navigation', { name: 'Project sections' })).toHaveCount(0);
   await expect(page.locator('article.project-record')).toHaveCount(3);
+  await expect(page.locator('.project-media')).toHaveCount(3);
+  await expect(page.locator('.project-number, .app-badges, .project-media-row')).toHaveCount(0);
   await expect(page.locator('article.workstream')).toHaveCount(3);
   await expect(page.getByText(/TK Park|Central Institute|Public Debt Management Office/)).toHaveCount(0);
   await expect(page.getByText('Photon Realtime', { exact: true })).toHaveCount(0);
@@ -352,7 +355,7 @@ test('typography keeps the hero as the only oversized text and preserves readabl
 
   await page.goto('/projects/');
   expect(await fontSize('.projects-hero h1')).toBeLessThanOrEqual(60);
-  expect(await fontSize('.project-number')).toBeGreaterThanOrEqual(12.5);
+  expect(await fontSize('.project-context')).toBeGreaterThanOrEqual(12.5);
 
   await page.goto('/projects/tiny-little-platform/');
   expect(await fontSize('.project-hero h1')).toBeLessThanOrEqual(64);
