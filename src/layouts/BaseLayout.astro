@@ -21,14 +21,18 @@ const isHomepage = withoutBase(Astro.url.pathname) === '/';
   <head>
     <script is:inline>
       (() => {
-        try {
-          const theme = localStorage.getItem('portfolio-theme');
-          if (theme === 'light' || theme === 'dark') {
-            document.documentElement.dataset.theme = theme;
+        const applyStoredTheme = () => {
+          try {
+            const theme = localStorage.getItem('portfolio-theme');
+            if (theme === 'light' || theme === 'dark') {
+              document.documentElement.dataset.theme = theme;
+            }
+          } catch {
+            // System appearance remains the safe default when storage is unavailable.
           }
-        } catch {
-          // System appearance remains the safe default when storage is unavailable.
-        }
+        };
+        applyStoredTheme();
+        document.addEventListener('astro:after-swap', applyStoredTheme);
       })();
     </script>
     <meta charset="UTF-8" />
